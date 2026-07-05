@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$ Dollar Note $ | Coherent Capital</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+/* ===== TOKENS ===== */
+:root{
+  --bg:#040404;
+  --surface:#0a0a0a;
+  --card:#0f0f0f;
+  --gold:#C9A84C;
+  --gold-bright:#F0C55A;
+  --gold-dim:rgba(201,168,76,.18);
+  --gold-glow:rgba(201,168,76,.35);
+  --text:#f0ede8;
+  --muted:#8a8580;
+  --green:#2ecc71;
+  --red:#e74c3c;
+  --border:rgba(201,168,76,.2);
+}
+
+/* ===== RESET ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ===== PARTICLE CANVAS ===== */
+#particles{
+  position:fixed;top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:0;width:100%;z-index:999;
+  background:rgba(4,4,4,.95);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 7%;
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  display:flex;align-items:center;gap:12px;
+}
+.nav-logo img{
+  width:38px;height:38px;
+}
+.nav-brand{
+  font-family:"Bebas Neue";
+  font-size:1.1rem;letter-spacing:3px;color:var(--gold);
+}
+nav ul{display:flex;gap:28px;list-style:none;align-items:center;}
+nav a{
+  color:var(--muted);text-decoration:none;
+  font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+  transition:.3s;font-weight:500;
+}
+nav a:hover{color:var(--gold)}
+.nav-date{
+  font-size:.7rem;letter-spacing:1.5px;color:var(--muted);
+  text-transform:uppercase;
+}
+
+/* HAMBURGER MENU */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  z-index: 1000;
+  padding: 4px;
+}
+.menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--gold);
+  transition: 0.3s ease-in-out;
+}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  padding:130px 20px 80px;
+  position:relative;
+  z-index:1;
+  background: var(--bg);
+}
+.hero-dollar-bg{
+  position:absolute;
+  font-family:"Bebas Neue";
+  font-size:clamp(20rem, 45vw, 42rem);
+  color:rgba(201,168,76,.03);
+  line-height:1;
+  user-select:none;
+  pointer-events:none;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:0;
+}
+.hero-logo-wrap{
+  position:relative;
+  display:inline-block;
+  margin-bottom:36px;
+}
+.hero-logo{
+  width:120px;height:120px;
+}
+.hero-eyebrow{
+  font-size:.7rem;letter-spacing:5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:14px;
+  font-weight:500;
+}
+.hero h1{
+  font-family:"Playfair Display";
+  font-size:clamp(3rem,7vw,5.5rem);
+  line-height:1.05;
+  font-weight:700;
+  margin-bottom:10px;
+  position:relative;z-index:1;
+}
+.hero h1 .dollar{color:var(--gold)}
+.hero-sub{
+  font-size:.95rem;color:var(--muted);
+  max-width:560px;margin:18px auto 36px;
+  line-height:1.7;letter-spacing:.3px;
+}
+.hero-cta{
+  display:inline-flex;gap:16px;flex-wrap:wrap;justify-content:center;
+}
+.btn-primary{
+  padding:14px 32px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-bright));
+  color:#040404;
+  font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+  text-decoration:none;border-radius:3px;
+  box-shadow:0 0 30px var(--gold-glow);
+  transition:.3s;
+}
+.btn-primary:hover{
+  box-shadow:0 0 50px var(--gold-glow);transform:translateY(-2px);
+}
+.btn-ghost{
+  padding:14px 32px;
+  border:1px solid var(--border);color:var(--muted);
+  font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+  text-decoration:none;border-radius:3px;
+  transition:.3s;
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+
+/* ===== TICKER STRIP ===== */
+.ticker-strip{
+  position:relative;z-index:2;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:12px 0;overflow:hidden;
+}
+.ticker-inner{
+  display:flex;gap:60px;white-space:nowrap;
+  animation:tickerScroll 30s linear infinite;
+  font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);
+}
+.ticker-item span{color:var(--gold);margin-left:8px}
+.ticker-item .up{color:var(--green)}
+.ticker-item .down{color:var(--red)}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===== SECTION BASE ===== */
+.section{padding:90px 7%;position:relative;z-index:1}
+.section-label{
+  font-size:.65rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:12px;font-weight:600;
+}
+.section-title{
+  font-family:"Playfair Display";
+  font-size:clamp(1.9rem,3.5vw,2.6rem);
+  color:var(--text);margin-bottom:8px;
+}
+.section-title em{color:var(--gold);font-style:normal}
+.section-desc{color:var(--muted);font-size:.9rem;max-width:520px;line-height:1.75}
+
+/* ===== SHIMMER DIVIDER ===== */
+.shimmer-divider{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold-bright) 50%,transparent 100%);
+  box-shadow:0 0 18px var(--gold-glow),0 0 40px rgba(201,168,76,.12);
+  position:relative;z-index:1;
+}
+
+/* ===== MARKET FOCUS (STATUS BAR) ===== */
+.focus-bar{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:4px;overflow:hidden;
+  margin-top:40px;
+}
+.focus-cell{
+  background:var(--card);
+  padding:24px 20px;
+  position:relative;
+}
+.focus-cell::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.focus-label{
+  font-size:.6rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px;
+}
+.focus-value{
+  font-family:"Bebas Neue";
+  font-size:1.5rem;letter-spacing:2px;color:var(--gold-bright);
+}
+.focus-value.green{color:var(--green)}
+.focus-value.active{
+  color:var(--green);
+  animation:statusPulse 2s ease-in-out infinite;
+}
+@keyframes statusPulse{
+  0%,100%{opacity:1}50%{opacity:.6}
+}
+
+/* ===== GRID CYCLE ===== */
+.cycle-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;margin-top:40px;
+}
+@media(max-width:768px){.cycle-grid{grid-template-columns:1fr 1fr}}
+.cycle-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:22px 18px;
+  position:relative;overflow:hidden;
+  transition:.4s;
+}
+
+/* DYNAMIC HOVER & DYNAMIC ACTIVE CLASSES */
+.cycle-card.active-day{
+  border-color:var(--gold);
+  background:linear-gradient(135deg,rgba(201,168,76,.08),var(--card));
+  box-shadow:0 0 30px rgba(201,168,76,.15);
+}
+.cycle-card::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--border);transition:.4s;
+}
+.cycle-card.active-day::after{
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.cycle-day{
+  font-size:.6rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;
+}
+.cycle-name{
+  font-family:"Bebas Neue";font-size:1.1rem;letter-spacing:1px;color:var(--text);
+  margin-bottom:6px;
+}
+.cycle-desc{font-size:.78rem;color:var(--muted);line-height:1.5}
+
+/* Badges placeholder injection styling */
+.cycle-badge{
+  display:inline-block;
+  font-size:.55rem;letter-spacing:2px;text-transform:uppercase;
+  padding:3px 8px;border-radius:2px;
+  background:rgba(201,168,76,.15);color:var(--gold);
+  margin-top:10px;
+}
+
+/* ===== JOURNAL ENTRY ===== */
+.journal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:36px;flex-wrap:wrap;gap:16px;
+}
+.journal-meta{
+  font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);
+}
+.journal-meta strong{color:var(--gold)}
+.journal-layout{
+  display:grid;grid-template-columns:1fr 380px;gap:32px;
+}
+@media(max-width:1024px){.journal-layout{grid-template-columns:1fr}}
+
+.journal-block{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:4px;margin-bottom:20px;
+  overflow:hidden;
+}
+.journal-block-header{
+  padding:14px 22px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.jb-dot{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.jb-title{
+  font-size:.65rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);font-weight:600;
+}
+.journal-block-body{padding:22px;}
+.journal-block-body p{
+  font-size:.88rem;line-height:1.9;color:var(--muted);margin-bottom:10px;
+}
+.journal-block-body p:last-child{margin-bottom:0}
+.journal-block-body strong{color:var(--text)}
+.highlight-note{
+  border-left:2px solid var(--gold);
+  padding:12px 16px;
+  background:rgba(201,168,76,.04);
+  border-radius:0 4px 4px 0;
+  margin-bottom:10px;
+  font-size:.85rem;color:var(--text);line-height:1.8;
+}
+.trade-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:3px;
+  font-size:.75rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;
+  margin-bottom:12px;
+}
+.trade-badge.sell{background:rgba(231,76,60,.12);color:var(--red);border:1px solid rgba(231,76,60,.3)}
+.trade-badge.buy{background:rgba(46,204,113,.12);color:var(--green);border:1px solid rgba(46,204,113,.3)}
+
+/* ===== CHART SIDEBAR ===== */
+.chart-sidebar{
+  display:flex;flex-direction:column;gap:16px;
+}
+.chart-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+}
+.chart-card-header{
+  padding:12px 18px;
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.chart-card-label{font-size:.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.chart-card-pair{font-family:"Bebas Neue";font-size:1.1rem;letter-spacing:2px;color:var(--gold-bright)}
+.chart-card img{
+  width:100%;display:block;
+  filter:contrast(1.05) brightness(1.02);
+}
+.chart-caption{
+  padding:12px 18px;
+  font-size:.72rem;color:var(--muted);line-height:1.6;
+  border-top:1px solid var(--border);
+}
+.result-pill{
+  display:inline-block;
+  padding:3px 10px;border-radius:2px;
+  font-size:.65rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;
+  background:rgba(46,204,113,.12);color:var(--green);
+  border:1px solid rgba(46,204,113,.25);margin-bottom:6px;
+}
+
+/* USD INDEX CHART FRAME */
+.tv-chart-frame {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.tv-chart-frame .chart-header {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tv-chart-frame .chart-header .label {
+  font-size: .65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.tv-chart-frame .chart-header .pair {
+  font-family: 'Bebas Neue';
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: var(--gold-bright);
+}
+.tv-chart-frame .chart-body {
+  padding: 6px;
+  background: #0a0a0a;
+}
+.tv-chart-frame .chart-body img {
+  width: 100%;
+  display: block;
+  border-radius: 2px;
+}
+.tv-chart-frame .chart-footer {
+  padding: 8px 18px;
+  font-size: .7rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  background: rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tv-chart-frame .chart-footer .time {
+  letter-spacing: 1px;
+}
+.tv-chart-frame .chart-footer .status {
+  color: var(--green);
+  font-weight: 500;
+}
+
+/* PROOF ACCORDION */
+.proof-accordion {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--card);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.proof-trigger {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text);
+  padding: 16px 18px;
+  text-align: left;
+  font-family: "Bebas Neue";
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s;
+}
+.proof-trigger:hover {
+  background: rgba(201,168,76,.04);
+}
+.proof-icon {
+  transition: transform 0.3s;
+  color: var(--gold);
+  font-size: 0.8rem;
+}
+.proof-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
+  background: rgba(4,4,4,.5);
+}
+.proof-content.open {
+  max-height: 2000px;
+  border-top: 1px solid var(--border);
+}
+.proof-inner-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+/* ===== PRINCIPLE ===== */
+.principle-sequence{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  margin-top:40px;
+}
+@media(max-width:768px){.principle-sequence{grid-template-columns:1fr}}
+.principle-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:4px;padding:30px 24px;
+  position:relative;overflow:hidden;
+  transition:.4s;
+}
+.principle-card:hover{
+  border-color:rgba(201,168,76,.5);
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(0,0,0,.5);
+}
+.principle-num{
+  font-family:"Bebas Neue";font-size:3rem;
+  color:rgba(201,168,76,.12);
+  position:absolute;top:16px;right:20px;
+  line-height:1;
+}
+.principle-icon{font-size:1.5rem;margin-bottom:16px}
+.principle-name{
+  font-family:"Playfair Display";font-size:1.1rem;
+  color:var(--text);margin-bottom:10px;
+}
+.principle-text{font-size:.84rem;color:var(--muted);line-height:1.75}
+
+/* ===== ABOUT ===== */
+.about-inner{
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+}
+@media(max-width:900px){.about-inner{grid-template-columns:1fr}}
+.about-logo-wrap{
+  display:flex;align-items:center;justify-content:center;
+}
+.about-logo{
+  width:220px;height:220px;
+}
+.about-text p{
+  font-size:.9rem;color:var(--muted);line-height:1.9;margin-bottom:16px;
+}
+.about-text p:last-child{margin-bottom:0}
+.about-text strong{color:var(--text)}
+.tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.tag{
+  padding:6px 14px;border:1px solid var(--border);border-radius:2px;
+  font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);
+}
+
+/* ===== FOOTER ===== */
+footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--border);
+  padding:50px 7%;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;
+}
+.footer-logo{
+  display:flex;align-items:center;gap:12px;
+}
+.footer-logo img{
+  width:32px;height:32px;
+}
+.footer-brand{
+  font-family:"Bebas Neue";font-size:.95rem;letter-spacing:3px;color:var(--gold);
+}
+.footer-copy{
+  font-size:.7rem;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;
+}
+.footer-tagline{
+  font-size:.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;
+}
+
+/* ===== FADE IN ===== */
+.fade{opacity:0;transform:translateY(32px);transition:opacity .9s ease,transform .9s ease}
+.fade.show{opacity:1;transform:none}
+
+/* ===== RESPONSIVE NAV & HAMBURGER ===== */
+@media(max-width:768px){
+  .menu-toggle {
+    display: flex;
+  }
+  
+  nav ul {
+    position: fixed;
+    top: 71px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 71px);
+    background: rgba(4, 4, 4, 0.98);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+    border-top: 1px solid var(--border);
+  }
+
+  nav ul.active {
+    transform: translateX(0);
+  }
+
+  nav a {
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+  }
+
+  .menu-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .nav-date{display:none}
+  .focus-bar{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    <div>
+      <div class="nav-brand">Coherent Capital</div>
+    </div>
+  </div>
+  
+  <ul id="navMenu">
+    <li><a href="#focus">Market Focus</a></li>
+    <li><a href="#journal">Daily Journal</a></li>
+    <li><a href="#cycle">Grid Cycle</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+
+  <button class="menu-toggle" id="mobileToggleButton" aria-label="Toggle navigation menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  
+  <div class="nav-date" id="navDate"></div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-dollar-bg" aria-hidden="true">$</div>
+  <div style="position:relative;z-index:1">
+    <div class="hero-logo-wrap">
+      <img class="hero-logo" src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    </div>
+    <div class="hero-eyebrow">Coherent Capital presents</div>
+    <h1>
+      <span class="dollar">$</span>Dollar <span class="dollar">Note$</span>
+    </h1>
+    <p class="hero-sub">
+      Daily institutional intelligence focused on U.S. Dollar market structure,
+      grid cycle analysis, and precision trade execution.
+    </p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#journal">Read Today's Note</a>
+      <a class="btn-ghost" href="#cycle">Institutional Grid</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER STRIP -->
+<div class="ticker-strip">
+  <div class="ticker-inner">
+    <span class="ticker-item">DXY &nbsp;<span>99.48</span>&nbsp;<span class="up">▲ +0.42%</span></span>
+    <span class="ticker-item">GBPUSD &nbsp;<span>1.3274</span>&nbsp;<span class="down">▼ −0.95%</span></span>
+    <span class="ticker-item">USD BIAS &nbsp;<span class="up">LONG</span></span>
+    <span class="ticker-item">TARGET &nbsp;<span>101.00 → 101.75</span></span>
+    <span class="ticker-item">PHASE &nbsp;<span>Day 3 Continuation</span></span>
+    <span class="ticker-item">FOMC &nbsp;<span>Resolved — USD Bought</span></span>
+    <span class="ticker-item">DXY &nbsp;<span>99.48</span>&nbsp;<span class="up">▲ +0.42%</span></span>
+    <span class="ticker-item">GBPUSD &nbsp;<span>1.3274</span>&nbsp;<span class="down">▼ −0.95%</span></span>
+    <span class="ticker-item">USD BIAS &nbsp;<span class="up">LONG</span></span>
+    <span class="ticker-item">TARGET &nbsp;<span>101.00 → 101.75</span></span>
+    <span class="ticker-item">PHASE &nbsp;<span>Day 3 Continuation</span></span>
+    <span class="ticker-item">FOMC &nbsp;<span>Resolved — USD Bought</span></span>
+  </div>
+</div>
+
+<!-- MARKET FOCUS -->
+<section id="focus" class="section fade">
+  <div class="section-label">Current Position</div>
+  <div class="section-title">Market <em>Intelligence</em> Brief</div>
+  <p class="section-desc">Live institutional grid read — updated daily before New York opens.</p>
+  <div class="focus-bar">
+    <div class="focus-cell">
+      <div class="focus-label">Direction</div>
+      <div class="focus-value green">Bullish USD</div>
+    </div>
+    <div class="focus-cell">
+      <div class="focus-label">Phase</div>
+      <div class="focus-value">Day 3 Trend</div>
+    </div>
+    <div class="focus-cell">
+      <div class="focus-label">Target Zone</div>
+      <div class="focus-value">101.00 → 101.75</div>
+    </div>
+    <div class="focus-cell">
+      <div class="focus-label">Current Phase</div>
+      <div class="focus-value">Continuation</div>
+    </div>
+    <div class="focus-cell">
+      <div class="focus-label">Status</div>
+      <div class="focus-value active">● TRADE ACTIVE</div>
+    </div>
+    <div class="focus-cell">
+      <div class="focus-label">Last Updated</div>
+      <div class="focus-value" id="lastUpdated">18 JUN 2026</div>
+    </div>
+  </div>
+</section>
+
+<div class="shimmer-divider"></div>
+
+<!-- LIVE INTERACTIVE CHARTS WIDGET -->
+<section class="section fade">
+  <div class="section-label">Live Data Terminal</div>
+  <div class="section-title">Institutional <em>Market Terminal</em></div>
+  <p class="section-desc">Fully flexible charting canvas. Access structural timeframes (M5, M15, M30, H1, H4) from the top bar interface. Period separators are permanently initialized across profiles to isolate cycle sessions cleanly.</p>
+  
+  <div style="margin-top:36px; border-radius:4px; overflow:hidden; border:1px solid var(--border);">
+    <div class="tradingview-widget-container" style="height:600px; width:100%;">
+      <div id="tradingview_institutional_terminal" style="height:600px; width:100%;"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+      <script type="text/javascript">
+      new TradingView.widget({
+        "autosize": true,
+        "symbol": "TVC:DXY",
+        "interval": "60",
+        "timezone": "America/New_York",
+        "theme": "dark",
+        "style": "1",
+        "locale": "en",
+        "enable_publishing": false,
+        "hide_side_toolbar": false,
+        "allow_symbol_change": true,
+        "save_image": false,
+        "container_id": "tradingview_institutional_terminal",
+        "timeframe": "1D",
+        "hide_ideas": true,
+        "overrides": {
+          "mainSeriesProperties.candleStyle.upColor": "#2ecc71",
+          "mainSeriesProperties.candleStyle.downColor": "#e74c3c",
+          "mainSeriesProperties.candleStyle.drawWick": true,
+          "mainSeriesProperties.candleStyle.drawBorder": true,
+          "mainSeriesProperties.candleStyle.borderColor": "#2ecc71",
+          "mainSeriesProperties.candleStyle.borderUpColor": "#2ecc71",
+          "mainSeriesProperties.candleStyle.borderDownColor": "#e74c3c",
+          "mainSeriesProperties.candleStyle.wickUpColor": "#2ecc71",
+          "mainSeriesProperties.candleStyle.wickDownColor": "#e74c3c",
+          "mainSeriesProperties.showSessions": true,
+          "paneProperties.background": "#040404",
+          "paneProperties.vertGridProperties.color": "rgba(201,168,76,0.05)",
+          "paneProperties.horzGridProperties.color": "rgba(201,168,76,0.05)"
+        },
+        "watchlist": [
+          "TVC:DXY",
+          "FX:EURUSD",
+          "FX:GBPUSD",
+          "FX:AUDUSD",
+          "FX:USDCAD",
+          "FX:USDCHF",
+          "FX:USDJPY",
+          "OANDA:XAUUSD",
+          "OANDA:XAGUSD",
+          "TVC:USOIL",
+          "TVC:UKOIL",
+          "SP:SPX",
+          "NASDAQ:IXIC",
+          "DJ:DJI"
+        ],
+        "studies": []
+      });
+      </script>
+    </div>
+  </div>
+</section>
+
+<div class="shimmer-divider"></div>
+
+<!-- JOURNAL ENTRY -->
+<section id="journal" class="section fade">
+  <div class="journal-header">
+    <div>
+      <div class="section-label">Daily Intelligence</div>
+      <div class="section-title">The <em>Dollar Note</em></div>
+    </div>
+    <div class="journal-meta">
+      Entry Date &nbsp;|&nbsp; <strong id="journalEntryDate">Thursday, 18 June 2026</strong>
+    </div>
+  </div>
+
+  <!-- USD INDEX CHART FRAME (restored) -->
+  <div class="tv-chart-frame">
+    <div class="chart-header">
+      <span class="label">US Dollar Index</span>
+      <span class="pair">DXY · D1</span>
+    </div>
+    <div class="chart-body">
+      <img src="IMG-20260618-WA0056.jpg" alt="USD Dollar Index Daily Chart">
+    </div>
+    <div class="chart-footer">
+      <span class="time">⏱ 09:11:53 SAST · 18 Jun 2026</span>
+      <span class="status">● LIVE</span>
+    </div>
+  </div>
+
+  <div class="journal-layout">
+    <div class="journal-body">
+      <!-- NEW STACKED ENTRY : 18 JUN 2026 -->
+      <div class="journal-block" style="border-left: 2px solid var(--gold);">
+        <div class="journal-block-header">
+          <div class="jb-dot" style="background: #F0C55A;"></div>
+          <div class="jb-title">Thu, 18 June 2026 – Session Stack</div>
+        </div>
+        <div class="journal-block-body">
+          <div class="highlight-note">Wed Closed in Breakout (CIB) at the High Close of Month (HCOM) above last month's high (Wed high of day approx. 100.50) — Signal Day.</div>
+          <div class="highlight-note">Thu opened and coiled on the Breakout (BO) Level (100.25) just underneath Wed Closing Price (CP, 100.35).</div>
+          <div class="highlight-note">We are on the backside of the week with the USD currently in BO of yesterday's high of day (HOD) — Signal on the day for the trend trade continuation dump and pump Buy Low setup.</div>
+          <p><strong>Notes:</strong></p>
+          <p>1. Wait for the Ignition window, wait for the coil in the ignition window.</p>
+          <p>2. All Signals must be present for the most Ideal high probability setup. (Signal day > Signal on the day > Timings, levels, behaviour of price.)</p>
+          <p>3. Do not force your will on the market and remember <em>(One order cancels the other Order, my only job is to execute with fixed risk when all my signals present.)</em></p>
+        </div>
+      </div>
+
+      <div class="journal-block">
+        <div class="journal-block-header">
+          <div class="jb-dot"></div>
+          <div class="jb-title">Weekly Structural Context</div>
+        </div>
+        <div class="journal-block-body">
+          <p><strong>Week 1</strong> closed in Breakout — confirming the First Green Week (FGW) signal.</p>
+          <p><strong>Week 2</strong> expanded with Higher Highs, then reversed aggressively.</p>
+          <p><strong>Week 3 (current)</strong> — front side has signalled a potential failed breakout short of Friday's Inside Day.</p>
+          <p>Tuesday produced a Higher High in Asia, confirming a False Break of Monday's gap move.</p>
+        </div>
+      </div>
+
+      <div class="journal-block">
+        <div class="journal-block-header">
+          <div class="jb-dot"></div>
+          <div class="jb-title">Price Structure Analysis</div>
+        </div>
+        <div class="journal-block-body">
+          <div class="highlight-note">Friday formed an Inside Day — the Signal Day.</div>
+          <div class="highlight-note">Monday gapped below Friday's Low, then closed back inside Friday's range — trapping short sellers.</div>
+          <div class="highlight-note">Tuesday broke the daily level with a Higher High, acting as the signal on the day for a failed breakout.</div>
+          <div class="highlight-note">Price coiled sideways into Wednesday at ~99.48 — aligning precisely with last month's High of Month. This is the Breakout, Pullback, Continue structure.</div>
+        </div>
+      </div>
+
+      <div class="journal-block">
+        <div class="journal-block-header">
+          <div class="jb-dot"></div>
+          <div class="jb-title">Pre-Market Expectation</div>
+        </div>
+        <div class="journal-block-body">
+          <p>Today's expected move: <strong>Day 3 trend continuation</strong> — Buy Low extension of the First Green Week signal targeting 101.00 then 101.75.</p>
+          <p><strong>FOMC risk event:</strong> Patience required. If New York does not present a clean Buy Low / Sell High setup in the timing window, wait for Close of Day confirmation before acting.</p>
+          <p style="margin-top:4px;font-size:.78rem;color:var(--gold);letter-spacing:1px">Signal Day → Signal on the Day → Coil → Ignition Window</p>
+        </div>
+      </div>
+
+      <div class="journal-block">
+        <div class="journal-block-header">
+          <div class="jb-dot"></div>
+          <div class="jb-title">Trade Execution — GBPUSD Short</div>
+        </div>
+        <div class="journal-block-body">
+          <span class="trade-badge sell">▼ SELL — GBPUSD</span>
+          <p><strong>Entry:</strong> 09:50 NYT &nbsp;|&nbsp; <strong>Setup:</strong> Low Hanging Fruit (Sell High)</p>
+          <p><strong>Rationale:</strong> USD long expectation created the inverse setup — GBPUSD short at the coil.</p>
+          <p>Price had formed the Sell High structure on the Institutional Grid level near <strong>99.50</strong>, aligning with Monday's closing price, the failed breakout high from Friday's Inside Day, and the Lower Low made on Tuesday acting as signal on the day for a pump-and-dump sell high.</p>
+          <p style="color:var(--green);font-size:.85rem;margin-top:8px">✓ &nbsp;USD bought exactly as anticipated. GBPUSD sold sharply post-FOMC.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR: Case Study Execution Proof + chart -->
+    <div class="chart-sidebar">
+      <!-- PROOF ACCORDION (restored with images) -->
+      <div class="proof-accordion">
+        <button class="proof-trigger" onclick="toggleProof()">
+          <span>Case Study Execution Proof</span>
+          <span class="proof-icon" id="accordion-arrow">▼</span>
+        </button>
+        <div class="proof-content" id="proof-panel">
+          <div class="proof-inner-gallery">
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-label">Runner Framework</span><span class="chart-card-pair">GBPUSD</span></div>
+              <img src="IMG-20260618-WA0042.jpg" alt="Runner Framework">
+              <div class="chart-caption"><div class="result-pill">RUNNING</div><br>Floating asset performance tracking toward expansion.</div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-label">Closed Cycle Ledger</span><span class="chart-card-pair">GBPUSD</span></div>
+              <img src="IMG-20260618-WA0044.jpg" alt="Closed Extraction">
+              <div class="chart-caption"><div class="result-pill">SECURED</div><br>Extraction of initial book targets from structural high window.</div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-label">M15 Structure</span><span class="chart-card-pair">GBPUSD</span></div>
+              <img src="IMG-20260618-WA0061.jpg" alt="GBPUSD M15">
+              <div class="chart-caption">M15 price action — coil and breakout levels.</div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-label">Order Flow</span><span class="chart-card-pair">GBPUSD</span></div>
+              <img src="IMG-20260618-WA0060.jpg" alt="GBPUSD order flow">
+              <div class="chart-caption">Sell order 1.5 lots @ 1.32133, risk management view.</div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-label">USDJPY</span><span class="chart-card-pair">USDJPY</span></div>
+              <img src="IMG-20260618-WA0057.jpg" alt="USDJPY trade">
+              <div class="chart-caption">USDJPY buy 2.5 lots, 358.55 profit.</div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-label">P&L Snapshot</span><span class="chart-card-pair">Portfolio</span></div>
+              <img src="IMG-20260618-WA0058.jpg" alt="Profit and Equity">
+              <div class="chart-caption">Profit $3.36k, Equity $103.91k, open positions.</div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-card-header"><span class="chart-card-label">Top Movers & Total P&L</span><span class="chart-card-pair">Watchlist</span></div>
+              <img src="IMG-20260618-WA0059.jpg" alt="Top movers and total profit">
+              <div class="chart-caption">GBPUSD +0.67%, EURUSD +0.42%, overall trading profit $3,360.29.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-card-label">Trade Chart — M15</span>
+          <span class="chart-card-pair">GBPUSD</span>
+        </div>
+        <img src="LHF-Sell-High2.jpg" alt="GBPUSD M15 — Sell High LHF Trade">
+        <div class="chart-caption">
+          <div class="result-pill">EXECUTED</div><br>
+          M15 showing the full move — coil structure, Sell High entry at institutional level ~1.3408, post-FOMC liquidation to 1.3295. Clean Low Hanging Fruit execution.
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-card-label">Result — M5</span>
+          <span class="chart-card-pair">GBPUSD</span>
+        </div>
+        <img src="LHF-Sell-High1.jpg" alt="GBPUSD M5 — Trade Result">
+        <div class="chart-caption">
+          <div class="result-pill">CONFIRMED</div><br>
+          M5 confirming the entry at 09:51 NYT, SL above 1.3422. Price dropped sharply through institutional levels to 1.3274 — a clean ~130-pip move on the Day 3 continuation signal.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="shimmer-divider"></div>
+
+<!-- INSTITUTIONAL GRID CYCLE -->
+<section id="cycle" class="section fade">
+  <div class="section-label">Framework</div>
+  <div class="section-title">Institutional <em>Grid Cycle</em></div>
+  <p class="section-desc">The weekly structure that governs institutional price delivery. Every session has a role.</p>
+  <div class="cycle-grid" id="cycleGridContainer">
+    <div class="cycle-card" data-day-index="1">
+      <div class="cycle-day">Monday</div>
+      <div class="cycle-name">Opening Range</div>
+      <div class="cycle-desc">The week's initial price range is established. Gap behaviour and early bias signals emerge here.</div>
+    </div>
+    <div class="cycle-card" data-day-index="2">
+      <div class="cycle-day">Tuesday</div>
+      <div class="cycle-name">Initial Balance</div>
+      <div class="cycle-desc">The signal on the day appears. Higher Highs, Lower Lows or false breaks confirm the weekly directional read.</div>
+    </div>
+    <div class="cycle-card" data-day-index="3">
+      <div class="cycle-day">Wednesday</div>
+      <div class="cycle-name">D3 Midpoint + Reset</div>
+      <div class="cycle-desc">Price coils. The ignition window opens. Breakout-pullback-continue setups activate for trend trades.</div>
+    </div>
+    <div class="cycle-card" data-day-index="4">
+      <div class="cycle-day">Thursday</div>
+      <div class="cycle-name">Extension · Reversal · Liquidation</div>
+      <div class="cycle-desc">The week's directional move reaches completion or reverses. High-probability momentum or exhaustion.</div>
+    </div>
+    <div class="cycle-card" data-day-index="5">
+      <div class="cycle-day">Friday</div>
+      <div class="cycle-name">Closing Range</div>
+      <div class="cycle-desc">Institutional positions close. The week's range is defined. Next week's opening bias is set.</div>
+    </div>
+  </div>
+</section>
+
+<div class="shimmer-divider"></div>
+
+<!-- MARKET PHILOSOPHY -->
+<section class="section fade">
+  <div class="section-label">The Foundation</div>
+  <div class="section-title">Market <em>Philosophy</em></div>
+  <p class="section-desc">Positive expectancy is the product of a disciplined system, not a lucky read.</p>
+  <div class="principle-sequence">
+    <div class="principle-card">
+      <div class="principle-num">01</div>
+      <div class="principle-icon">⚙️</div>
+      <div class="principle-name">Methodology</div>
+      <div class="principle-text">Every trade requires a structural reason to exist. Signal Day. Signal on the Day. Coil. Ignition Window. Without all four — no trade.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">02</div>
+      <div class="principle-icon">🛡️</div>
+      <div class="principle-name">Money Management</div>
+      <div class="principle-text">Capital preservation is the objective. Asymmetrical risk-to-reward creates an edge that compounds over time. Position size is a decision, not a habit.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-num">03</div>
+      <div class="principle-icon">🧠</div>
+      <div class="principle-name">Psychology</div>
+      <div class="principle-text">Process over emotion. Preparation over prediction. Consistency over excitement. The trader who waits for all conditions earns what the impulsive trader loses.</div>
+    </div>
+  </div>
+</section>
+
+<div class="shimmer-divider"></div>
+
+<!-- ABOUT -->
+<section id="about" class="section fade">
+  <div class="about-inner">
+    <div class="about-logo-wrap">
+      <img class="about-logo" src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    </div>
+    <div class="about-text">
+      <div class="section-label">About</div>
+      <div class="section-title">Coherent <em>Capital</em></div>
+      <p>Coherent Capital provides structured market intelligence focused on the U.S. Dollar and its Institutional Grid Level Cycle. This is not a signal service. This is a research desk.</p>
+      <p>The <strong>$ Dollar Note $</strong> is a daily publication — a written record of preparation, process, and execution. Every entry reflects the same three-pillar framework: methodology, money management, and psychology.</p>
+      <p>The objective is not to predict. The objective is to <strong>prepare</strong> — and to execute with discipline when the structure presents itself.</p>
+      <div class="tag-row">
+        <span class="tag">USD Research</span>
+        <span class="tag">Institutional Grid</span>
+        <span class="tag">Market Structure</span>
+        <span class="tag">Precision Execution</span>
+        <span class="tag">Coherentcapital.online</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    <div>
+      <div class="footer-brand">Coherent Capital</div>
+      <div style="font-size:.6rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase">coherentcapital.online</div>
+    </div>
+  </div>
+  <div class="footer-copy">© 2026 Coherent Capital &nbsp;|&nbsp; $ Dollar Note $ &nbsp;|&nbsp; All Rights Reserved</div>
+  <div class="footer-tagline">Intelligence · Precision · Discipline</div>
+</footer>
+
+<!-- SCRIPTS -->
+<script>
+// Mobile Navigation Toggle
+const toggleBtn = document.getElementById('mobileToggleButton');
+const navMenu = document.getElementById('navMenu');
+
+toggleBtn.addEventListener('click', () => {
+  toggleBtn.classList.toggle('active');
+  navMenu.classList.toggle('active');
+});
+
+document.querySelectorAll('#navMenu a').forEach(link => {
+  link.addEventListener('click', () => {
+    toggleBtn.classList.remove('active');
+    navMenu.classList.remove('active');
+  });
+});
+
+// Dynamic Date and Active Institutional Day Processing
+const now = new Date();
+const opts = {day:'numeric',month:'long',year:'numeric'};
+const standardDateText = now.toLocaleDateString('en-GB',opts).toUpperCase();
+document.getElementById('navDate').textContent = standardDateText;
+
+// Automated Grid Selector Logic (Monday = 1, Tuesday = 2... Friday = 5)
+const currentDayOfWeek = now.getDay(); 
+if (currentDayOfWeek >= 1 && currentDayOfWeek <= 5) {
+  const activeCard = document.querySelector(`.cycle-card[data-day-index="${currentDayOfWeek}"]`);
+  if (activeCard) {
+    activeCard.classList.add('active-day');
+    const badge = document.createElement('div');
+    badge.className = 'cycle-badge';
+    badge.textContent = 'Current Phase';
+    activeCard.appendChild(badge);
+  }
+}
+
+// Proof Accordion Toggle
+function toggleProof() {
+  const panel = document.getElementById('proof-panel');
+  const arrow = document.getElementById('accordion-arrow');
+  if(!panel || !arrow) return;
+  panel.classList.toggle('open');
+  arrow.style.transform = panel.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+}
+
+// Intersection observer - fade in
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+
+// Gold particle system
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+
+  const particles = Array.from({length: 70}, () => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.4 + 0.3,
+    speedX: (Math.random() - 0.5) * 0.3,
+    speedY: -Math.random() * 0.5 - 0.1,
+    opacity: Math.random() * 0.5 + 0.1,
+    pulse: Math.random() * Math.PI * 2,
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.pulse += 0.02;
+      const alpha = p.opacity * (0.7 + 0.3 * Math.sin(p.pulse));
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,168,76,${alpha})`;
+      ctx.fill();
+      p.x += p.speedX;
+      p.y += p.speedY;
+      if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+      if (p.x < -5) p.x = W + 5;
+      if (p.x > W + 5) p.x = -5;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+</body>
+</html>

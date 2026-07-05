@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 27 Review | The Discipline of Preparation — Coherent Capital</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+/* ===== TOKENS ===== */
+:root{
+  --bg:#040404;
+  --surface:#0a0a0a;
+  --card:#0f0f0f;
+  --gold:#C9A84C;
+  --gold-bright:#F0C55A;
+  --gold-dim:rgba(201,168,76,.18);
+  --gold-glow:rgba(201,168,76,.35);
+  --text:#f0ede8;
+  --muted:#8a8580;
+  --green:#2ecc71;
+  --red:#e74c3c;
+  --border:rgba(201,168,76,.2);
+}
+
+/* ===== RESET ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ===== PARTICLE CANVAS ===== */
+#particles{
+  position:fixed;top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ===== WHATSAPP FLOATING BUTTON ===== */
+.whatsapp-float {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+  width: 56px;
+  height: 56px;
+  background: #0a0a0a;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: .3s;
+  box-shadow: 0 0 15px rgba(201,168,76,.2);
+  animation: goldBeamPulse 2.5s infinite ease-in-out;
+}
+.whatsapp-float svg {
+  width: 28px;
+  height: 28px;
+  fill: var(--gold-bright);
+}
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  background: var(--gold);
+}
+.whatsapp-float:hover svg {
+  fill: #040404;
+}
+@keyframes goldBeamPulse {
+  0% { box-shadow: 0 0 0 0 rgba(201,168,76,0.5); }
+  70% { box-shadow: 0 0 0 18px rgba(201,168,76,0); }
+  100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:0;width:100%;z-index:999;
+  background:rgba(4,4,4,.95);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 7%;
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  display:flex;align-items:center;gap:12px;
+}
+.nav-logo img{
+  width:38px;height:38px;
+}
+.nav-brand{
+  font-family:"Bebas Neue";
+  font-size:1.1rem;letter-spacing:3px;color:var(--gold);
+}
+nav ul{display:flex;gap:28px;list-style:none;align-items:center;}
+nav a{
+  color:var(--muted);text-decoration:none;
+  font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+  transition:.3s;font-weight:500;
+}
+nav a:hover{color:var(--gold)}
+.nav-date{
+  font-size:.7rem;letter-spacing:1.5px;color:var(--muted);
+  text-transform:uppercase;
+}
+
+/* HAMBURGER MENU */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  z-index: 1000;
+  padding: 4px;
+}
+.menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--gold);
+  transition: 0.3s ease-in-out;
+}
+
+/* ===== BACK TO TOP ===== */
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  width: 40px;
+  height: 40px;
+  background: #0a0a0a;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: .4s;
+  opacity: 0;
+  visibility: hidden;
+}
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+.back-to-top svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--muted);
+  transition: .3s;
+}
+.back-to-top:hover {
+  border-color: var(--gold-bright);
+  transform: translateY(-4px);
+}
+.back-to-top:hover svg {
+  fill: var(--gold-bright);
+}
+
+/* ===== ARTICLE HERO ===== */
+.article-hero{
+  min-height:55vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:130px 20px 50px;
+  position:relative;
+  z-index:1;
+  background: transparent;
+}
+.article-hero-logo{
+  width:80px;height:80px;
+  margin-bottom:24px;
+}
+.article-hero-eyebrow{
+  font-size:.65rem;letter-spacing:5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:14px;
+  font-weight:600;
+}
+.article-hero h1{
+  font-family:"Playfair Display";
+  font-size:clamp(2rem,4.5vw,3.4rem);
+  line-height:1.15;
+  font-weight:700;
+  margin-bottom:12px;
+  position:relative;z-index:1;
+  max-width:700px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.article-hero h1 em{
+  color:var(--gold);
+  font-style:normal;
+}
+.article-hero-meta{
+  font-size:.75rem;
+  color:var(--muted);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-top:16px;
+}
+.article-hero-meta span{
+  color:var(--gold);
+}
+
+/* ===== TICKER STRIP ===== */
+.ticker-strip{
+  position:relative;z-index:2;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:12px 0;overflow:hidden;
+}
+.ticker-inner{
+  display:flex;gap:60px;white-space:nowrap;
+  animation:tickerScroll 30s linear infinite;
+  font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);
+}
+.ticker-item span{color:var(--gold);margin-left:8px}
+.ticker-item .up{color:var(--green)}
+.ticker-item .down{color:var(--red)}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===== ARTICLE BODY ===== */
+.article-body{
+  max-width:760px;
+  margin:0 auto;
+  padding:60px 24px 80px;
+  position:relative;
+  z-index:1;
+}
+
+/* Section Header */
+.article-section{
+  margin-bottom:48px;
+}
+.article-section-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+}
+.section-num{
+  font-family:"Bebas Neue";
+  font-size:2.4rem;
+  color:rgba(201,168,76,.15);
+  line-height:1;
+}
+.section-heading{
+  font-family:"Playfair Display";
+  font-size:clamp(1.3rem,2.5vw,1.7rem);
+  color:var(--text);
+  font-weight:700;
+}
+.section-heading em{
+  color:var(--gold);
+  font-style:normal;
+}
+
+/* Paragraphs */
+.article-body p{
+  font-size:.92rem;
+  color:var(--muted);
+  line-height:1.9;
+  margin-bottom:16px;
+}
+.article-body p strong{
+  color:var(--text);
+  font-weight:600;
+}
+
+/* Highlight Box */
+.highlight-box{
+  border-left:3px solid var(--gold);
+  padding:16px 20px;
+  background:rgba(201,168,76,.04);
+  border-radius:0 4px 4px 0;
+  margin:20px 0;
+}
+.highlight-box p{
+  font-size:.88rem;
+  color:var(--text);
+  line-height:1.85;
+  margin-bottom:0;
+}
+.highlight-box p:last-child{
+  margin-bottom:0;
+}
+
+/* Quote Block */
+.quote-block{
+  text-align:center;
+  padding:36px 20px;
+  margin:32px 0;
+  position:relative;
+}
+.quote-block::before,
+.quote-block::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  width:60px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.quote-block::before{top:0}
+.quote-block::after{bottom:0}
+.quote-block p{
+  font-family:"Playfair Display";
+  font-size:clamp(1.1rem,2.2vw,1.4rem);
+  color:var(--text);
+  line-height:1.6;
+  font-style:italic;
+  margin-bottom:12px;
+}
+.quote-block .quote-attrib{
+  font-size:.7rem;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold);
+}
+
+/* List Styling */
+.article-list{
+  list-style:none;
+  margin:16px 0 20px;
+  padding:0;
+}
+.article-list li{
+  font-size:.9rem;
+  color:var(--muted);
+  line-height:1.85;
+  padding:8px 0 8px 28px;
+  position:relative;
+  border-bottom:1px solid rgba(201,168,76,.06);
+}
+.article-list li::before{
+  content:"▸";
+  position:absolute;
+  left:0;
+  color:var(--gold);
+  font-size:.8rem;
+}
+
+/* Protocol Steps */
+.protocol-list{
+  counter-reset:protocol;
+  list-style:none;
+  margin:20px 0;
+  padding:0;
+}
+.protocol-list li{
+  counter-increment:protocol;
+  font-size:.88rem;
+  color:var(--muted);
+  line-height:1.8;
+  padding:12px 0 12px 48px;
+  position:relative;
+  border-bottom:1px solid rgba(201,168,76,.06);
+}
+.protocol-list li::before{
+  content:counter(protocol, decimal-leading-zero);
+  position:absolute;
+  left:0;
+  font-family:"Bebas Neue";
+  font-size:1.1rem;
+  color:var(--gold);
+  letter-spacing:1px;
+}
+
+/* Divider */
+.article-divider{
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:40px 0;
+}
+
+/* Schematic Figure */
+.schematic-wrap{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:24px;
+  margin:24px 0;
+  text-align:center;
+}
+.schematic-wrap img{
+  max-width:100%;
+  height:auto;
+  border-radius:2px;
+}
+.schematic-caption{
+  font-size:.72rem;
+  color:var(--muted);
+  margin-top:14px;
+  line-height:1.6;
+  letter-spacing:.5px;
+}
+
+/* CTA Card */
+.cta-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:32px;
+  text-align:center;
+  margin:40px 0;
+  position:relative;
+  overflow:hidden;
+}
+.cta-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.cta-card h3{
+  font-family:"Playfair Display";
+  font-size:1.3rem;
+  color:var(--gold);
+  margin-bottom:10px;
+}
+.cta-card p{
+  font-size:.88rem;
+  color:var(--muted);
+  line-height:1.75;
+  margin-bottom:20px;
+}
+.btn-primary {
+  display: inline-block;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+  color: #040404;
+  font-weight: 700;
+  font-size: .8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 3px;
+  box-shadow: 0 0 30px var(--gold-glow);
+  transition: .3s;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 50px var(--gold-glow);
+  transform: translateY(-2px);
+}
+
+/* Download Section */
+.download-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 32px;
+  text-align: center;
+  margin: 40px 0;
+}
+.download-section .download-icon {
+  font-size: 2.8rem;
+  margin-bottom: 12px;
+  display: block;
+}
+.download-section h3 {
+  font-family: "Playfair Display";
+  font-size: 1.3rem;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.download-section p {
+  font-size: .88rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+.download-btn {
+  display: inline-block;
+  padding: 14px 40px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+  color: #040404;
+  font-weight: 700;
+  font-size: .8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 3px;
+  box-shadow: 0 0 30px var(--gold-glow);
+  transition: .3s;
+}
+.download-btn:hover {
+  box-shadow: 0 0 50px var(--gold-glow);
+  transform: translateY(-2px);
+}
+.download-btn svg {
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  vertical-align: middle;
+  fill: currentColor;
+}
+
+/* Footer Banner */
+.footer-banner{
+  text-align:center;
+  padding:40px 20px;
+  border-top:1px solid var(--border);
+  margin-top:40px;
+}
+.footer-banner img{
+  width:60px;height:60px;
+  margin-bottom:16px;
+}
+.footer-banner p{
+  font-size:.7rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  line-height:1.8;
+}
+.footer-banner p strong{
+  color:var(--gold);
+  font-weight:600;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--border);
+  padding:50px 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:24px;
+  background:var(--bg);
+}
+.footer-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.footer-logo img{
+  width:32px;height:32px;
+}
+.footer-brand{
+  font-family:"Bebas Neue";
+  font-size:.95rem;
+  letter-spacing:3px;
+  color:var(--gold);
+}
+.footer-copy{
+  font-size:.7rem;
+  letter-spacing:1.5px;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+.footer-tagline{
+  font-size:.7rem;
+  color:var(--muted);
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .menu-toggle { display:flex; }
+  nav ul {
+    position:fixed; top:71px; left:0; width:100%; height:calc(100vh - 71px);
+    background:rgba(4,4,4,0.98); backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px);
+    flex-direction:column; justify-content:center; gap:40px;
+    transform:translateX(100%); transition:transform 0.4s ease-in-out; border-top:1px solid var(--border);
+  }
+  nav ul.active { transform:translateX(0); }
+  nav a { font-size:1.1rem; letter-spacing:4px; }
+  .menu-toggle.active span:nth-child(1) { transform:translateY(8px) rotate(45deg); }
+  .menu-toggle.active span:nth-child(2) { opacity:0; }
+  .menu-toggle.active span:nth-child(3) { transform:translateY(-8px) rotate(-45deg); }
+  .nav-date{display:none}
+  .article-hero{padding:110px 20px 40px;}
+  .article-body{padding:40px 20px 60px;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- WHATSAPP FLOATING BUTTON -->
+<a href="https://wa.me/27670929982" target="_blank" class="whatsapp-float" aria-label="Join Coherent Capital on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.488 1.449 5.412 1.451 5.428 0 9.85-4.417 9.853-9.843.002-2.63-1.023-5.101-2.886-6.968C17.162 1.928 14.69 .901 12.007.901c-5.433 0-9.854 4.416-9.857 9.842-.001 1.984.518 3.922 1.508 5.642l-1.01 3.694 3.791-.994zm11.367-6.04c-.333-.167-1.97-.972-2.277-1.084-.306-.113-.53-.167-.751.166-.221.334-.856 1.084-1.05 1.307-.194.223-.389.25-.722.083-1.127-.565-1.933-1.001-2.714-2.34-.205-.352.205-.327.586-1.087.064-.134.032-.25-.016-.352-.049-.101-.423-1.018-.579-1.396-.152-.364-.307-.315-.422-.321-.108-.005-.233-.006-.357-.006-.125 0-.327.047-.498.234-.171.188-.65.635-.65 1.55s.666 1.802.76 1.928c.093.127 1.312 2.004 3.18 2.81.444.192.79.307 1.06.393.446.142.851.121 1.171.074.357-.053 1.97-.805 2.247-1.583.277-.778.277-1.446.194-1.585-.083-.139-.277-.222-.61-.39z"/></svg>
+</a>
+
+<!-- BACK TO TOP BUTTON -->
+<a href="#" id="backToTopButton" class="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
+</a>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    <div><div class="nav-brand">Coherent Capital</div></div>
+  </div>
+  <ul id="navMenu">
+    <li><a href="index.html#focus">Market Focus</a></li>
+    <li><a href="index.html#journal">Daily Journal</a></li>
+    <li><a href="index.html#cycle">Grid Cycle</a></li>
+    <li><a href="index.html#psychology">Psychology</a></li>
+    <li><a href="weekly.html">Weekly Edition</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a  href="journal-archive.html">Journal-Archive</a></li>
+  </ul>
+  <button class="menu-toggle" id="mobileToggleButton" aria-label="Toggle navigation menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-date" id="navDate"></div>
+</nav>
+
+<!-- ARTICLE HERO -->
+<section class="article-hero">
+  <div style="position:relative;z-index:1">
+    <img class="article-hero-logo" src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    <div class="article-hero-eyebrow">Weekly Review — Advanced Mentorship</div>
+    <h1>Week 27: <em>The Discipline</em> of Preparation</h1>
+    <div class="article-hero-meta">
+      <span>Coherent Capital</span> &nbsp;|&nbsp; Week 27 Review &nbsp;|&nbsp; 3 July 2026
+    </div>
+  </div>
+</section>
+
+<!-- TICKER STRIP -->
+<div class="ticker-strip">
+  <div class="ticker-inner">
+    <span class="ticker-item">DXY &nbsp;<span>100.69</span>&nbsp;<span class="up">▲ +0.08%</span></span>
+    <span class="ticker-item">USD BIAS &nbsp;<span class="up">LONG</span></span>
+    <span class="ticker-item">PHASE &nbsp;<span>Week 1 D3 Backside</span></span>
+    <span class="ticker-item">TARGET &nbsp;<span>104.24 (Monthly LHF)</span></span>
+    <span class="ticker-item">DXY &nbsp;<span>100.69</span>&nbsp;<span class="up">▲ +0.08%</span></span>
+    <span class="ticker-item">USD BIAS &nbsp;<span class="up">LONG</span></span>
+    <span class="ticker-item">PHASE &nbsp;<span>Week 1 D3 Backside</span></span>
+    <span class="ticker-item">TARGET &nbsp;<span>104.24 (Monthly LHF)</span></span>
+  </div>
+</div>
+
+<!-- ARTICLE BODY -->
+<article class="article-body">
+
+  <!-- SECTION 1: OPENING FRAME -->
+  <div class="article-section">
+    <div class="article-section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-heading">The <em>Market Doesn't Know</em> You Need Money</h2>
+    </div>
+    <p>One of the hardest lessons every trader must learn is that the financial markets have no awareness of your personal situation. They don't know that your rent is due, that clients haven't paid, or that your account needs a certain amount to pass a prop firm evaluation. The market simply presents opportunities according to price, liquidity, and order flow.</p>
+    <p>This is why trading under financial pressure requires an even greater level of discipline.</p>
+
+    <div class="highlight-box">
+      <p><strong>Many traders begin making emotional decisions when money becomes tight.</strong> They increase their risk, force trades that don't meet their criteria, or close profitable trades too early because fear becomes stronger than their trading plan. Unfortunately, these reactions often make the financial pressure even worse.</p>
+    </div>
+
+    <p>Professional traders understand that their responsibility is not to control the outcome of a single trade. Their responsibility is to execute their trading plan with consistency. Profits are the result of disciplined execution over time.</p>
+
+    <div class="quote-block">
+      <p>"Every trade should be judged by one question: Did I follow my process? If the answer is yes, then the trade was successful regardless of whether it resulted in a profit or a loss."</p>
+      <div class="quote-attrib">— Coherent Capital Private Playbook</div>
+    </div>
+  </div>
+
+  <div class="article-divider"></div>
+
+  <!-- SECTION 2: OPERATIONAL FRAMEWORK -->
+  <div class="article-section">
+    <div class="article-section-header">
+      <div class="section-num">02</div>
+      <h2 class="section-heading">Operational <em>Framework</em> & Technical Playbook</h2>
+    </div>
+    <p>Consistency in performance stems directly from behavioral discipline. We are explicitly looking for at least <strong>one high-probability setup every single week.</strong> Patience dictates that we avoid forcing market interaction outside our predefined setup characteristics.</p>
+
+    <h3 style="font-family:'Bebas Neue';font-size:1rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin:24px 0 12px;">Common Environmental Roadblocks</h3>
+    <ul class="article-list">
+      <li><strong>Major Red News Catalysts:</strong> Consumer Price Index (CPI), Non-Farm Payrolls (NFP), Federal Open Market Committee announcements (FOMC), and Producer Price Index (PPI).</li>
+      <li><strong>Timing Disalignments:</strong> Mismatches where the volume or velocity occurs outside defined operational session hours.</li>
+      <li><strong>Session Divergence:</strong> Instances where structural price moves unfold in a completely separate or unexpected trading session.</li>
+    </ul>
+
+    <h3 style="font-family:'Bebas Neue';font-size:1rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin:24px 0 12px;">Setup Parameters & Accumulation Dynamics</h3>
+    <p>Our structural entry filters look for <strong>3 clear days or multiple distinct days of breakout extensions (BO)</strong> matching the High Close of Week/Month (HCOW/M) dynamics. This must sequence into a tight sideways consolidation coil heading into the key New York ignition window.</p>
+    <p>As a rule of trade architecture, <strong>execution triggers rarely require interaction prior to Wednesday or Thursday.</strong> This deliberate structural evolution requires multiple operational days to build the high-probability order flow profile required to take risk.</p>
+  </div>
+
+  <div class="article-divider"></div>
+
+  <!-- SECTION 3: THE CYCLE -->
+  <div class="article-section">
+    <div class="article-section-header">
+      <div class="section-num">03</div>
+      <h2 class="section-heading">The <em>Multi-Day</em> Accumulation Reversal Cycle</h2>
+    </div>
+    <p>Market states are limited to three core environments. Mechanically, we are hunting uniquely for either a clean continuation setup or a complete structural reversal setup. <strong>Trading during structural consolidation phases is strictly avoided.</strong></p>
+
+    <div class="schematic-wrap">
+      <div style="background:#0a0a0a;padding:20px;border-radius:2px;">
+        <svg viewBox="0 0 800 380" style="width:100%;max-width:700px;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background grid lines -->
+          <line x1="140" y1="50" x2="140" y2="320" stroke="rgba(201,168,76,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="280" y1="50" x2="280" y2="320" stroke="rgba(201,168,76,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="420" y1="50" x2="420" y2="320" stroke="rgba(201,168,76,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="560" y1="50" x2="560" y2="320" stroke="rgba(201,168,76,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="700" y1="50" x2="700" y2="320" stroke="rgba(201,168,76,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="50" y1="280" x2="750" y2="280" stroke="rgba(201,168,76,0.08)" stroke-width="1" stroke-dasharray="8,4"/>
+
+          <!-- Price path -->
+          <polyline points="60,240 90,280 120,250 150,260 180,255 210,180 240,175 270,175 300,120 330,118 360,118 390,80 420,78 450,78 480,75 510,78 540,85 570,70 600,75 630,65 660,80 690,120 720,180" 
+            fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linejoin="round"/>
+
+          <!-- Entry arrow -->
+          <line x1="630" y1="65" x2="630" y2="200" stroke="#e74c3c" stroke-width="2"/>
+          <polygon points="630,210 625,200 635,200" fill="#e74c3c"/>
+
+          <!-- Labels -->
+          <text x="140" y="40" fill="#8a8580" font-family="Bebas Neue" font-size="14" letter-spacing="2">1CIB</text>
+          <text x="280" y="40" fill="#8a8580" font-family="Bebas Neue" font-size="14" letter-spacing="2">2CIB</text>
+          <text x="420" y="40" fill="#8a8580" font-family="Bebas Neue" font-size="14" letter-spacing="2">3CIB</text>
+          <text x="520" y="60" fill="#C9A84C" font-family="Bebas Neue" font-size="14" letter-spacing="2">HCOW/M</text>
+          <text x="610" y="55" fill="#e74c3c" font-family="Bebas Neue" font-size="14" letter-spacing="2">SL</text>
+          <text x="645" y="72" fill="#2ecc71" font-family="Bebas Neue" font-size="14" letter-spacing="2">E</text>
+          <text x="730" y="300" fill="#8a8580" font-family="Bebas Neue" font-size="14" letter-spacing="2">TP</text>
+
+          <!-- Day labels -->
+          <text x="140" y="345" fill="#8a8580" font-family="Inter" font-size="12" text-anchor="middle">M</text>
+          <text x="280" y="345" fill="#8a8580" font-family="Inter" font-size="12" text-anchor="middle">T</text>
+          <text x="420" y="345" fill="#8a8580" font-family="Inter" font-size="12" text-anchor="middle">W</text>
+          <text x="560" y="345" fill="#8a8580" font-family="Inter" font-size="12" text-anchor="middle">T</text>
+          <text x="700" y="345" fill="#8a8580" font-family="Inter" font-size="12" text-anchor="middle">F</text>
+        </svg>
+      </div>
+      <div class="schematic-caption">Figure 1: Multi-Day Accumulation Reversal Cycle — 3 CIB sequence into HCOW/M, followed by structural reversal entry (E) with stop loss (SL) above the high, targeting the structural low (TP).</div>
+    </div>
+  </div>
+
+  <div class="article-divider"></div>
+
+  <!-- SECTION 4: EXECUTION PROTOCOL -->
+  <div class="article-section">
+    <div class="article-section-header">
+      <div class="section-num">04</div>
+      <h2 class="section-heading">Daily <em>Execution</em> Protocol</h2>
+    </div>
+    <p>Preparation defines executive clarity. Each trading day requires marking the previous session's absolute High, Low, and Close/Pivot levels (H / L / CP). We stand aside until a definitive signal on the day manifests via an explicit break of a daily level, certifying that structural validation is prepared for New York.</p>
+
+    <div class="highlight-box">
+      <p><strong>It remains strictly imperative that execution parameters are followed systematically every single day.</strong> Adherence to these strict parameters serves as the primary barrier against behavioral anomalies and self-destructive emotional trading.</p>
+    </div>
+
+    <h3 style="font-family:'Bebas Neue';font-size:1rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin:24px 0 12px;">The Sequence</h3>
+    <ol class="protocol-list">
+      <li><strong>Mark:</strong> Establish baseline high, low, and clear pivot areas (H / L / CP).</li>
+      <li><strong>Identify CIB:</strong> Isolate the Close In Breakout signal day characteristics.</li>
+      <li><strong>Identify Daily Level Break:</strong> Verify real-time signal validation on the current session.</li>
+      <li><strong>Identify Institutional Coil:</strong> Confirm structure behavior compressing tight at premium or discount institutional levels.</li>
+      <li><strong>Isolate Ignition Trap:</strong> Pinpoint the precise trap and shift model within the target window.</li>
+      <li><strong>Execute:</strong> Trigger position risk only when every operational criteria is synchronized and the signature is printing inside the Ignition window (16h00–17h30).</li>
+      <li><strong>Conclude:</strong> Terminate terminal interaction entirely, step away, and archive metrics at daily close.</li>
+      <li><strong>Repeat.</strong></li>
+    </ol>
+  </div>
+
+  <div class="article-divider"></div>
+
+  <!-- SECTION 5: PSYCHOLOGY -->
+  <div class="article-section">
+    <div class="article-section-header">
+      <div class="section-num">05</div>
+      <h2 class="section-heading">Mastering <em>Your Mind</em> Before Mastering the Market</h2>
+    </div>
+    <p>Discipline is not tested when everything is going well. It is tested when life places pressure on your shoulders.</p>
+    <p>The disciplined trader understands that <strong>financial pressure is temporary, but poor habits can have long-term consequences.</strong> A single emotional trade may feel like an attempt to solve today's problems, but it often creates even bigger problems tomorrow.</p>
+
+    <h3 style="font-family:'Bebas Neue';font-size:1rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin:24px 0 12px;">What Is Within Your Power</h3>
+    <ul class="article-list">
+      <li>Prepare thoroughly before each trading session.</li>
+      <li>Risk only what your trading plan allows.</li>
+      <li>Wait patiently for high-probability opportunities.</li>
+      <li>Accept that not every day will produce a trade.</li>
+      <li>Record every trade honestly in your journal.</li>
+      <li>Judge success by consistency, not by today's profit.</li>
+    </ul>
+
+    <p>At Coherent Capital, we believe that trading is more than charts and technical analysis. It is the daily practice of becoming a disciplined human being. Sustainable success is built through preparation, patience, and professionalism — not desperation.</p>
+
+    <div class="quote-block">
+      <p>"Financial pressure should never become trading pressure. Your circumstances may influence your emotions, but they should never influence your trading decisions."</p>
+      <div class="quote-attrib">— Coherent Capital Trading Psychology</div>
+    </div>
+  </div>
+
+  <div class="article-divider"></div>
+
+  <!-- SECTION 6: CORE AXIOM -->
+  <div class="article-section">
+    <div class="article-section-header">
+      <div class="section-num">06</div>
+      <h2 class="section-heading">The <em>Core</em> Axiom</h2>
+    </div>
+    <p>Market cycles present identical geometric and structural tendencies week after week. The identical underlying institutional behaviors repeat.</p>
+
+    <div class="highlight-box">
+      <p style="font-size:1rem;"><strong>Identify the setup. Protect your capital. Execute the plan.</strong></p>
+    </div>
+
+    <p>The market rewards consistency far more often than it rewards brilliance. Stay patient. Trust your process. Protect your capital. Your discipline today is the foundation of your financial freedom tomorrow.</p>
+  </div>
+
+  <!-- DOWNLOAD SECTION -->
+  <div class="download-section">
+    <span class="download-icon">📄</span>
+    <h3>Download the Weekly Edition</h3>
+    <p>Get the full Week 27 Review PDF — including structural analysis, grid data, live journal entries, and the GER40 execution case study. <strong>Free download for our community.</strong></p>
+    <a href="Paid Article.pdf" class="download-btn" download>
+      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      Download PDF
+    </a>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-card">
+    <h3>Join the Weekly Edition</h3>
+    <p>Every Friday, before the market closes, receive the structural read for the week ahead. Not signals. Not hype. Just the grid, the levels, and the discipline to wait for all conditions.</p>
+    <a href="weekly.html" class="btn-primary" style="display:inline-block;">R150 / month — Start Preparing</a>
+  </div>
+
+  <!-- FOOTER BANNER -->
+  <div class="footer-banner">
+    <img src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    <p><strong>Coherent Capital</strong><br>
+    Dollar Note Weekly Edition<br>
+    <span style="color:var(--muted);">Intelligence · Precision · Discipline</span></p>
+  </div>
+
+</article>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    <div>
+      <div class="footer-brand">Coherent Capital</div>
+      <div style="font-size:.6rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase">coherentcapital.online</div>
+    </div>
+  </div>
+  <div class="footer-copy">© 2026 Coherent Capital &nbsp;|&nbsp; $ Dollar Note $ &nbsp;|&nbsp; All Rights Reserved</div>
+  <div class="footer-tagline">Intelligence · Precision · Discipline</div>
+</footer>
+
+<script>
+// Mobile toggle
+const toggleBtn = document.getElementById('mobileToggleButton');
+const navMenu = document.getElementById('navMenu');
+toggleBtn.addEventListener('click', () => {
+  toggleBtn.classList.toggle('active');
+  navMenu.classList.toggle('active');
+});
+document.querySelectorAll('#navMenu a').forEach(link => {
+  link.addEventListener('click', () => {
+    toggleBtn.classList.remove('active');
+    navMenu.classList.remove('active');
+  });
+});
+
+// Back to top
+const backBtn = document.getElementById('backToTopButton');
+window.addEventListener('scroll', () => {
+  if (backBtn) {
+    window.scrollY > 400 ? backBtn.classList.add('visible') : backBtn.classList.remove('visible');
+  }
+});
+
+// Date
+const now = new Date();
+const opts = {day:'numeric',month:'long',year:'numeric'};
+document.getElementById('navDate').textContent = now.toLocaleDateString('en-GB',opts).toUpperCase();
+
+// Particles
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+  const particles = Array.from({ length: 90 }, () => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.4 + 0.3,
+    speedX: (Math.random() - 0.5) * 0.3,
+    speedY: -Math.random() * 0.5 - 0.1,
+    opacity: Math.random() * 0.5 + 0.1,
+    pulse: Math.random() * Math.PI * 2,
+  }));
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.pulse += 0.02;
+      const alpha = p.opacity * (0.7 + 0.3 * Math.sin(p.pulse));
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,168,76,${alpha})`;
+      ctx.fill();
+      p.x += p.speedX;
+      p.y += p.speedY;
+      if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+      if (p.x < -5) p.x = W + 5;
+      if (p.x > W + 5) p.x = -5;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+</body>
+</html>

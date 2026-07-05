@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Week 27 | Dollar Note Weekly Edition</title>
+<style>
+@page {
+  size: A4;
+  margin: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0a0a0a;
+  color: #e8e4df;
+  line-height: 1.7;
+  font-size: 11pt;
+}
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 20mm 18mm 15mm 18mm;
+  position: relative;
+  background: #0a0a0a;
+  page-break-after: always;
+  display: flex;
+  flex-direction: column;
+}
+
+.page:last-child {
+  page-break-after: auto;
+}
+
+/* ===== HEADER / LOGO ===== */
+.header {
+  text-align: center;
+  margin-bottom: 8mm;
+  padding-bottom: 6mm;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+}
+
+.header img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 4mm;
+}
+
+.header-brand {
+  font-family: 'Georgia', serif;
+  font-size: 9pt;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #C9A84C;
+  font-weight: 600;
+}
+
+/* ===== HERO / TITLE ===== */
+.hero {
+  text-align: center;
+  margin-bottom: 8mm;
+  padding: 4mm 0;
+}
+
+.hero-eyebrow {
+  font-size: 8pt;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin-bottom: 3mm;
+  font-weight: 600;
+}
+
+.hero h1 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 22pt;
+  font-weight: 700;
+  color: #f0ede8;
+  margin-bottom: 2mm;
+  letter-spacing: 1px;
+}
+
+.hero h1 .dollar {
+  color: #C9A84C;
+}
+
+.hero-sub {
+  font-size: 10pt;
+  color: #8a8580;
+  max-width: 140mm;
+  margin: 0 auto 3mm;
+  line-height: 1.6;
+}
+
+.hero-meta {
+  font-size: 8pt;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8a8580;
+}
+
+.hero-meta span {
+  color: #C9A84C;
+}
+
+/* ===== TICKER STRIP ===== */
+.ticker-strip {
+  background: #111111;
+  border-top: 1px solid rgba(201, 168, 76, 0.2);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+  padding: 3mm 0;
+  margin-bottom: 8mm;
+  text-align: center;
+  font-size: 8pt;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #8a8580;
+}
+
+.ticker-strip span {
+  color: #C9A84C;
+  margin: 0 2mm;
+}
+
+.ticker-strip .up {
+  color: #2ecc71;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  margin-bottom: 8mm;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 3mm;
+  margin-bottom: 4mm;
+}
+
+.section-num {
+  font-family: 'Georgia', serif;
+  font-size: 20pt;
+  color: rgba(201, 168, 76, 0.15);
+  line-height: 1;
+  font-weight: 700;
+}
+
+.section-title {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 14pt;
+  color: #f0ede8;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-title em {
+  color: #C9A84C;
+  font-style: normal;
+}
+
+.section p {
+  font-size: 10.5pt;
+  color: #b5b0a8;
+  line-height: 1.8;
+  margin-bottom: 3mm;
+  text-align: justify;
+}
+
+.section p strong {
+  color: #f0ede8;
+  font-weight: 600;
+}
+
+/* ===== HIGHLIGHT NOTE ===== */
+.highlight-note {
+  border-left: 2px solid #C9A84C;
+  padding: 3mm 4mm;
+  background: rgba(201, 168, 76, 0.05);
+  margin: 4mm 0;
+  font-size: 10pt;
+  color: #e8e4df;
+  line-height: 1.7;
+}
+
+/* ===== QUOTE BLOCK ===== */
+.quote-block {
+  text-align: center;
+  padding: 6mm 8mm;
+  margin: 6mm 0;
+  position: relative;
+  border-top: 1px solid rgba(201, 168, 76, 0.3);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+}
+
+.quote-block p {
+  font-family: 'Georgia', serif;
+  font-size: 11pt;
+  color: #f0ede8;
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 2mm;
+}
+
+.quote-block .attrib {
+  font-size: 8pt;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #C9A84C;
+}
+
+/* ===== TABLE ===== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 4mm 0 5mm;
+  font-size: 9pt;
+}
+
+.data-table th,
+.data-table td {
+  padding: 2.5mm 3mm;
+  text-align: left;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+.data-table th {
+  font-size: 7.5pt;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C9A84C;
+  font-weight: 600;
+  background: rgba(201, 168, 76, 0.05);
+}
+
+.data-table td {
+  color: #b5b0a8;
+}
+
+.data-table td strong {
+  color: #f0ede8;
+  font-weight: 500;
+}
+
+/* ===== TRADE CARD ===== */
+.trade-card {
+  background: #111111;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 2mm;
+  padding: 5mm;
+  margin: 5mm 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.trade-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.5mm;
+  background: linear-gradient(90deg, transparent, #2ecc71, transparent);
+}
+
+.trade-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2mm;
+  padding: 1.5mm 3mm;
+  border-radius: 1mm;
+  font-size: 7.5pt;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: rgba(46, 204, 113, 0.1);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.2);
+  margin-bottom: 3mm;
+}
+
+.trade-detail {
+  font-size: 10pt;
+  color: #b5b0a8;
+  line-height: 1.7;
+  margin-bottom: 1.5mm;
+}
+
+.trade-detail strong {
+  color: #f0ede8;
+}
+
+/* ===== PROCESS LIST ===== */
+.process-list {
+  list-style: none;
+  margin: 4mm 0;
+  padding: 0;
+  counter-reset: process;
+}
+
+.process-list li {
+  counter-increment: process;
+  font-size: 10pt;
+  color: #b5b0a8;
+  line-height: 1.8;
+  padding: 2mm 0 2mm 10mm;
+  position: relative;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.05);
+}
+
+.process-list li::before {
+  content: counter(process, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  font-family: 'Georgia', serif;
+  font-size: 11pt;
+  color: #C9A84C;
+  letter-spacing: 1px;
+}
+
+/* ===== CHART FRAME ===== */
+.chart-frame {
+  background: #111111;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 2mm;
+  overflow: hidden;
+  margin: 5mm 0;
+}
+
+.chart-frame-header {
+  padding: 3mm 4mm;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chart-frame-label {
+  font-size: 7.5pt;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #8a8580;
+}
+
+.chart-frame-pair {
+  font-family: 'Georgia', serif;
+  font-size: 10pt;
+  letter-spacing: 2px;
+  color: #F0C55A;
+}
+
+.chart-frame-body {
+  padding: 3mm;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-frame-body img {
+  width: 100%;
+  max-height: 90mm;
+  object-fit: contain;
+  display: block;
+  border-radius: 1mm;
+}
+
+.chart-frame-footer {
+  padding: 2.5mm 4mm;
+  font-size: 8pt;
+  color: #8a8580;
+  border-top: 1px solid rgba(201, 168, 76, 0.15);
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chart-frame-footer .status {
+  color: #2ecc71;
+  font-weight: 500;
+}
+
+/* ===== IMAGE BLOCK ===== */
+.image-block {
+  text-align: center;
+  margin: 6mm 0;
+  padding: 4mm;
+  background: #111111;
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  border-radius: 2mm;
+}
+
+.image-block img {
+  max-width: 100%;
+  max-height: 100mm;
+  object-fit: contain;
+  border-radius: 1mm;
+}
+
+.image-caption {
+  font-size: 8pt;
+  color: #8a8580;
+  margin-top: 3mm;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ===== DIVIDER ===== */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.2), transparent);
+  margin: 6mm 0;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  margin-top: auto;
+  padding-top: 5mm;
+  border-top: 1px solid rgba(201, 168, 76, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7.5pt;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #8a8580;
+}
+
+.footer-brand {
+  color: #C9A84C;
+  font-weight: 600;
+}
+
+.footer-center {
+  text-align: center;
+  flex: 1;
+}
+
+/* ===== SPECIAL TEXT ===== */
+.gold-text {
+  color: #C9A84C;
+  font-weight: 700;
+}
+
+.center-text {
+  text-align: center;
+}
+
+/* ===== JAGUAR IMAGE SPECIAL ===== */
+.jaguar-block {
+  position: relative;
+  margin: 6mm 0;
+  border-radius: 2mm;
+  overflow: hidden;
+}
+
+.jaguar-block img {
+  width: 100%;
+  max-height: 80mm;
+  object-fit: cover;
+  display: block;
+}
+
+.jaguar-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 5mm;
+  background: linear-gradient(transparent, rgba(4, 4, 4, 0.95));
+}
+
+.jaguar-overlay p {
+  font-family: 'Georgia', serif;
+  font-size: 11pt;
+  color: #f0ede8;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ===== TWO COLUMN FOR TRADE IMAGE ===== */
+.two-col {
+  display: flex;
+  gap: 5mm;
+  margin: 5mm 0;
+}
+
+.two-col > div {
+  flex: 1;
+}
+
+.trade-image-block {
+  background: #111111;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 2mm;
+  padding: 3mm;
+  text-align: center;
+}
+
+.trade-image-block img {
+  max-width: 100%;
+  max-height: 70mm;
+  object-fit: contain;
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== PAGE 1 ==================== -->
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="file_00000000ffcc71f497cdfc800c25ff22.png" alt="Coherent Capital">
+    <div class="header-brand">Coherent Capital</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Paid Subscriber Edition — Week 27</div>
+    <h1><span class="dollar">$</span> Dollar <span class="dollar">Note $</span></h1>
+    <p class="hero-sub">The Weekly Edition. Institutional grid analysis for the trader who prepares.</p>
+    <div class="hero-meta"><span>Week 27</span> &nbsp;|&nbsp; Friday, 3 July 2026 &nbsp;|&nbsp; <span>11h22 SAST</span></div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker-strip">
+    DXY <span>100.69</span> <span class="up">▲ +0.08%</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+    USD BIAS <span class="up">LONG</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+    PHASE <span>Week 1 D3 Backside</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+    TARGET <span>104.24 (Monthly LHF)</span>
+  </div>
+
+  <!-- SECTION 1: OPENING FRAME -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <h2 class="section-title">Opening <em>Frame</em></h2>
+    </div>
+    <p>The USD closed June in breakout. Structural fact, not opinion. The monthly candle printed above the High Close of May. The weekly cycle completed Week 4 with Close In Breakout at <strong>101.08</strong>. These are the signals institutional capital leaves when it commits to direction.</p>
+    <p>Now we stand at the closing range of Week 1 July. <strong>D3 Backside.</strong> US markets close early for Independence Day. Low liquidity, high noise. The bias formed on Tuesday and Thursday must hold into the close for continuation into Week 2.</p>
+    <div class="highlight-note">This is the Dollar Note Weekly Edition. Paid subscriber content. Not for distribution.</div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- SECTION 2: WHAT JUST HAPPENED -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <h2 class="section-title">What Just <em>Happened</em></h2>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr><th>Day</th><th>Phase</th><th>Signal</th><th>Key Level</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Tue 1 Jul</strong></td><td>D1 Opening Range</td><td>July gap open. CIB first green day. Above June close.</td><td><strong>100.25</strong></td></tr>
+        <tr><td><strong>Wed 2 Jul</strong></td><td>D2 Mid-point</td><td>Consolidation coil. NFP positioning. Structure building.</td><td><strong>100.69</strong></td></tr>
+        <tr><td><strong>Thu 3 Jul</strong></td><td>D3 Backside — Closing Range</td><td>NFP released. US markets close early. Week's bias confirmed.</td><td><strong>100.69</strong></td></tr>
+      </tbody>
+    </table>
+    <p>Week 1 opened with a gap on Tuesday July 1 — the first trading day of the month. The signal day (CIB) printed immediately. Wednesday was the mid-point coil, structure building into NFP. Thursday was D3 Backside, the closing range, with NFP released and US markets closing early for Independence Day.</p>
+    <p>The compressed week means less time for structure to develop, but the signals that have presented are clear.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- SECTION 3: LIVE JOURNAL -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <h2 class="section-title">Live <em>Journal</em> — Friday 11h22</h2>
+    </div>
+    <div class="highlight-note">The $ has CIB short from the 1st day of the month.</div>
+    <div class="highlight-note">Thu LOD is <strong>100.42</strong> (near major Institutional level 100.50).</div>
+    <div class="highlight-note">Price is still inside the LOW range and has made a 3 push dump following a gap HH (inside Thu range) at the open of day.</div>
+    <div class="highlight-note">LOD is <strong>100.52</strong> (Major level).</div>
+
+    <p><strong>Notes:</strong></p>
+    <p>1. Given all the current signals, we can still anticipate a continued Bullish trend (validating the Monthly chart structure and signals) for the month of July, with this being the beginning given price formed a multi day structure at a major Institutional level (100.50) and a BO Level.</p>
+    <p>2. Price may still drop but that is looking far less probable, however we do not ignore this. <strong class="gold-text">PAY ATTENTION to what is PRESENTED then FOLLOW the PROCESS in the TIMING WINDOW.</strong></p>
+    <p class="gold-text" style="font-weight:700;">3. STICK to the PLAN and manage risk correctly in your favour when executing a setup given we are net profit for the beginning of July and should start off W2 July in the same position while we wait (like a jaguar in the night ready to pounce on its prey).</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">COHERENT CAPITAL</div>
+    <div class="footer-center">Dollar Note Weekly Edition — Week 27</div>
+    <div>Page 1</div>
+  </div>
+
+</div>
+
+<!-- ==================== PAGE 2 ==================== -->
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="file_00000000ffcc71f497cdfc800c25ff22.png" alt="Coherent Capital">
+    <div class="header-brand">Coherent Capital</div>
+  </div>
+
+  <!-- SECTION 4: ANTICIPATED STRUCTURE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <h2 class="section-title">Anticipated <em>Structure</em></h2>
+    </div>
+    <p>The DXY daily chart shows the classic <strong>BO → PB → CON</strong> sequence. Breakout above the June high, pullback to the institutional level at 100.50, now consolidating for continuation.</p>
+
+    <div class="chart-frame">
+      <div class="chart-frame-header">
+        <span class="chart-frame-label">US Dollar Index</span>
+        <span class="chart-frame-pair">DXY · D1</span>
+      </div>
+      <div class="chart-frame-body">
+        <img src="Screenshot_20260703-110602.png" alt="DXY Daily Chart — BO PB CON Structure">
+      </div>
+      <div class="chart-frame-footer">
+        <span class="time">⏱ 11:05 SAST · 3 Jul 2026</span>
+        <span class="status">● LIVE</span>
+      </div>
+    </div>
+
+    <p>The 3-push dump after the gap HH is textbook consolidation behaviour. Price is holding above the 100.50 institutional level — a level with memory. The moving averages are fanning bullish. The structure suggests continuation, not reversal.</p>
+    <p>But we do not marry the bias. We wait for the coil in the ignition window. We execute with fixed risk. And we stick to the plan.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- SECTION 5: TRADE EXECUTION -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <h2 class="section-title">Trade <em>Execution</em> — GER40 Buy Low</h2>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="trade-card">
+          <div class="trade-badge">✓ EXECUTED — BUY</div>
+          <div class="trade-detail"><strong>Instrument:</strong> GER40 / DAX40</div>
+          <div class="trade-detail"><strong>Setup:</strong> First Green Day (FGD) Buy Low</div>
+          <div class="trade-detail"><strong>Result:</strong> +$175.77 USD</div>
+          <div class="trade-detail"><strong>Account Balance:</strong> $5,147</div>
+        </div>
+
+        <p><strong>The Sequence:</strong></p>
+        <p><strong>Tuesday:</strong> Signal day — CIB first green day confirmed.</p>
+        <p><strong>Wednesday:</strong> Signal on the day — Higher Highs given. Coil showed up at the CP level in the Ignition window.</p>
+        <p><strong>Thursday:</strong> Left the setup to hit TP. No intervention. No emotion. Just the plan.</p>
+      </div>
+      <div class="trade-image-block">
+        <img src="file_00000000ffcc71f497cdfc800c25ff22.png" alt="GER40 Trade Result">
+        <div class="image-caption">GER40 Execution — +$175.77</div>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <p>"The grid works when you wait for all signals. Signal day → Signal on the day → Coil → Ignition Window. Every condition present. Every box checked. The result is a byproduct of the process."</p>
+      <div class="attrib">— Coherent Capital Private Playbook</div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- SECTION 6: WHAT COMES NEXT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <h2 class="section-title">What Comes <em>Next</em></h2>
+    </div>
+    <div class="highlight-note"><strong>Monthly:</strong> July opened in breakout. First Green Week potential. LHF at 104.24 remains the structural north star.</div>
+    <div class="highlight-note"><strong>Weekly:</strong> Week 1 closing range today. If the bias holds into the close, Week 2 opens with continuation momentum. If not, we reset and wait.</div>
+    <div class="highlight-note"><strong>Daily:</strong> D3 Backside. The true test of conviction. Institutional positions are either held or reduced before the long weekend.</div>
+
+    <p><strong>Levels to Watch:</strong></p>
+    <p><strong>100.50</strong> — Major institutional level. Current floor. The jaguar waits here.</p>
+    <p><strong>100.69</strong> — April HOM. Current pivot.</p>
+    <p><strong>101.25–101.50</strong> — Institutional grid zone. First extension target.</p>
+    <p><strong>101.72</strong> — June HOW. Resistance.</p>
+    <p><strong>104.24</strong> — Monthly LHF. The far target. The structure knows it is there.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">COHERENT CAPITAL</div>
+    <div class="footer-center">Dollar Note Weekly Edition — Week 27</div>
+    <div>Page 2</div>
+  </div>
+
+</div>
+
+<!-- ==================== PAGE 3 ==================== -->
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="file_00000000ffcc71f497cdfc800c25ff22.png" alt="Coherent Capital">
+    <div class="header-brand">Coherent Capital</div>
+  </div>
+
+  <!-- SECTION 7: PROCESS CHECK -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <h2 class="section-title">Process <em>Check</em></h2>
+    </div>
+    <p>This week, ask yourself:</p>
+    <ol class="process-list">
+      <li>Did I prepare before the session?</li>
+      <li>Did I identify the signal day and the signal on the day?</li>
+      <li>Did I wait for the coil in the ignition window?</li>
+      <li>Did I execute with fixed risk?</li>
+      <li>Did I evaluate without emotion?</li>
+    </ol>
+    <p>Five questions. No score. Just awareness.</p>
+    <div class="highlight-note center-text" style="font-size: 11pt;">
+      <strong class="gold-text">The 1% compounds in the gap between knowing and doing.</strong>
+    </div>
+    <p class="gold-text center-text" style="font-weight:700; font-size: 12pt; margin-top: 4mm;">STICK TO THE PLAN.</p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- SECTION 8: THE NOTE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <h2 class="section-title">The <em>Note</em></h2>
+    </div>
+    <p>The USD is in BO short of the 1st day of the month. Price is currently at 100.69. We are waiting for the close of day to find out if the BO will succeed or not.</p>
+    <p>This was written Thursday. It remains true Friday. The breakout is young. One day does not confirm a month. The grid cycle teaches: confirmation comes in stages, and the patient trader collects at each stage.</p>
+    <p>Do not ignore that price may continue short, despite being short-lived, since there is LHF on the Monthly chart.</p>
+    <p>We are net profit for the beginning of July. We start Week 2 in the same position — waiting, like a jaguar in the night, ready to pounce on the prey the market presents.</p>
+    <p class="gold-text center-text" style="font-weight:700; margin-top: 5mm; font-size: 12pt;">Stick to the plan.</p>
+  </div>
+
+  <!-- JAGUAR IMAGE -->
+  <div class="jaguar-block">
+    <img src="Jaguarhunting.jpg" alt="Jaguar hunting at night">
+    <div class="jaguar-overlay">
+      <p>"Like a jaguar in the night — patient, disciplined, ready to pounce."</p>
+    </div>
+  </div>
+
+  <!-- FOOTER BANNER -->
+  <div style="text-align: center; padding: 5mm 0; margin-top: 5mm; border-top: 1px solid rgba(201, 168, 76, 0.2);">
+    <img src="file_00000000ffcc71f497cdfc800c25ff22.png" alt="Coherent Capital" style="width: 40px; height: 40px; margin-bottom: 3mm;">
+    <p style="font-size: 8pt; letter-spacing: 2px; text-transform: uppercase; color: #8a8580; line-height: 1.8;">
+      <strong style="color: #C9A84C;">Coherent Capital</strong><br>
+      Dollar Note Weekly Edition — Week 27<br>
+      <span style="color: #8a8580;">Intelligence · Precision · Discipline</span>
+    </p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">COHERENT CAPITAL</div>
+    <div class="footer-center">Dollar Note Weekly Edition — Week 27</div>
+    <div>Page 3</div>
+  </div>
+
+</div>
+
+</body>
+</html>

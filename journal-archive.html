@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journal Archive | Coherent Capital</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#040404;--surface:#0a0a0a;--card:#0f0f0f;--gold:#C9A84C;--gold-bright:#F0C55A;--gold-dim:rgba(201,168,76,.18);--gold-glow:rgba(201,168,76,.35);--text:#f0ede8;--muted:#8a8580;--green:#2ecc71;--red:#e74c3c;--border:rgba(201,168,76,.2);}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+.whatsapp-float{position:fixed;bottom:24px;left:24px;z-index:9999;width:56px;height:56px;background:#0a0a0a;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:.3s;box-shadow:0 0 15px rgba(201,168,76,.2);animation:goldBeamPulse 2.5s infinite ease-in-out;}
+.whatsapp-float svg{width:28px;height:28px;fill:var(--gold-bright);}
+.whatsapp-float:hover{transform:scale(1.1);background:var(--gold);}
+.whatsapp-float:hover svg{fill:#040404;}
+@keyframes goldBeamPulse{0%{box-shadow:0 0 0 0 rgba(201,168,76,0.5);}70%{box-shadow:0 0 0 18px rgba(201,168,76,0);}100%{box-shadow:0 0 0 0 rgba(201,168,76,0);}}
+nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(4,4,4,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;justify-content:space-between;align-items:center;padding:16px 7%;border-bottom:1px solid var(--border);}
+.nav-logo{display:flex;align-items:center;gap:12px;}
+.nav-logo img{width:38px;height:38px;}
+.nav-brand{font-family:"Bebas Neue";font-size:1.1rem;letter-spacing:3px;color:var(--gold);}
+nav ul{display:flex;gap:28px;list-style:none;align-items:center;}
+nav a{color:var(--muted);text-decoration:none;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;transition:.3s;font-weight:500;}
+nav a:hover{color:var(--gold)}
+.nav-date{font-size:.7rem;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
+.menu-toggle{display:none;flex-direction:column;gap:6px;cursor:pointer;background:transparent;border:none;z-index:1000;padding:4px;}
+.menu-toggle span{display:block;width:24px;height:2px;background-color:var(--gold);transition:0.3s ease-in-out;}
+.back-to-top{position:fixed;bottom:24px;right:24px;z-index:9999;width:40px;height:40px;background:#0a0a0a;border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:.4s;opacity:0;visibility:hidden;}
+.back-to-top.visible{opacity:1;visibility:visible;}
+.back-to-top svg{width:14px;height:14px;fill:var(--muted);transition:.3s;}
+.back-to-top:hover{border-color:var(--gold-bright);transform:translateY(-4px);}
+.back-to-top:hover svg{fill:var(--gold-bright);}
+.hero{min-height:45vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:130px 20px 50px;position:relative;z-index:1;background:transparent;}
+.hero-dollar-bg{position:absolute;font-family:"Bebas Neue";font-size:clamp(12rem,30vw,26rem);color:rgba(201,168,76,.03);line-height:1;user-select:none;pointer-events:none;top:50%;left:50%;transform:translate(-50%,-50%);z-index:0;}
+.hero-logo-wrap{position:relative;display:inline-block;margin-bottom:24px;}
+.hero-logo{width:80px;height:80px;}
+.hero-eyebrow{font-size:.65rem;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:14px;font-weight:600;}
+.hero h1{font-family:"Playfair Display";font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.1;font-weight:700;margin-bottom:10px;position:relative;z-index:1;}
+.hero h1 .dollar{color:var(--gold)}
+.hero-sub{font-size:.9rem;color:var(--muted);max-width:520px;margin:14px auto 0;line-height:1.7;letter-spacing:.3px;}
+.ticker-strip{position:relative;z-index:2;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:12px 0;overflow:hidden;}
+.ticker-inner{display:flex;gap:60px;white-space:nowrap;animation:tickerScroll 30s linear infinite;font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);}
+.ticker-item span{color:var(--gold);margin-left:8px}
+.ticker-item .up{color:var(--green)}
+.ticker-item .down{color:var(--red)}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.archive-body{max-width:1100px;margin:0 auto;padding:50px 24px 80px;position:relative;z-index:1;}
+.month-tabs{display:flex;gap:8px;margin-bottom:36px;flex-wrap:wrap;justify-content:center;border-bottom:1px solid var(--border);padding-bottom:16px;}
+.month-tab{padding:10px 22px;background:transparent;border:1px solid var(--border);border-radius:3px;color:var(--muted);font-family:Inter,sans-serif;font-size:.78rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:.3s;font-weight:500;}
+.month-tab:hover{border-color:var(--gold);color:var(--gold);}
+.month-tab.active{background:var(--gold);border-color:var(--gold);color:#040404;font-weight:700;}
+.month-panel{display:none;}
+.month-panel.active{display:block;}
+.week-accordion{border:1px solid var(--border);border-radius:4px;background:var(--card);overflow:hidden;margin-bottom:16px;}
+.week-trigger{width:100%;background:none;border:none;color:var(--text);padding:18px 24px;text-align:left;font-family:"Bebas Neue";font-size:1.2rem;letter-spacing:2px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .3s;}
+.week-trigger:hover{background:rgba(201,168,76,.04);}
+.week-trigger .week-meta{font-family:Inter,sans-serif;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-left:16px;}
+.week-icon{transition:transform .3s;color:var(--gold);font-size:.8rem;}
+.week-content{max-height:0;overflow:hidden;transition:max-height .5s ease-out;background:rgba(4,4,4,.3);}
+.week-content.open{max-height:8000px;border-top:1px solid var(--border);}
+.week-inner{padding:20px 24px;display:flex;flex-direction:column;gap:16px;}
+.entry-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:22px 24px;position:relative;overflow:hidden;transition:.3s;}
+.entry-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-2px);}
+.entry-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.entry-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:14px;}
+.entry-date{font-family:"Bebas Neue";font-size:1.1rem;letter-spacing:2px;color:var(--gold-bright);}
+.entry-badges{display:flex;gap:8px;flex-wrap:wrap;}
+.badge{padding:4px 12px;border-radius:2px;font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;}
+.badge-phase{background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.2);}
+.badge-setup{background:rgba(46,204,113,.1);color:var(--green);border:1px solid rgba(46,204,113,.2);}
+.badge-setup.sell{background:rgba(231,76,60,.1);color:var(--red);border:1px solid rgba(231,76,60,.2);}
+.badge-setup.wait{background:rgba(138,133,128,.15);color:var(--muted);border:1px solid rgba(138,133,128,.2);}
+.entry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:14px;}
+.entry-field{display:flex;flex-direction:column;gap:4px;}
+.entry-field-label{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:600;}
+.entry-field-value{font-size:.85rem;color:var(--text);line-height:1.5;}
+.entry-notes{font-size:.82rem;color:var(--muted);line-height:1.75;border-top:1px solid rgba(201,168,76,.08);padding-top:12px;}
+.entry-notes strong{color:var(--text);font-weight:600;}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:20px 16px;text-align:center;}
+.stat-num{font-family:"Bebas Neue";font-size:2.2rem;color:var(--gold-bright);letter-spacing:2px;line-height:1;}
+.stat-label{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:8px;}
+.shimmer-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent 0%,var(--gold-bright) 50%,transparent 100%);box-shadow:0 0 18px var(--gold-glow),0 0 40px rgba(201,168,76,.12);position:relative;z-index:1;}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:50px 7%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;background:var(--bg);}
+.footer-logo{display:flex;align-items:center;gap:12px;}
+.footer-logo img{width:32px;height:32px;}
+.footer-brand{font-family:"Bebas Neue";font-size:.95rem;letter-spacing:3px;color:var(--gold);}
+.footer-copy{font-size:.7rem;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
+.footer-tagline{font-size:.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+@media(max-width:768px){
+  .menu-toggle{display:flex;}
+  nav ul{position:fixed;top:71px;left:0;width:100%;height:calc(100vh - 71px);background:rgba(4,4,4,0.98);backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);flex-direction:column;justify-content:center;gap:40px;transform:translateX(100%);transition:transform 0.4s ease-in-out;border-top:1px solid var(--border);}
+  nav ul.active{transform:translateX(0);}
+  nav a{font-size:1.1rem;letter-spacing:4px;}
+  .menu-toggle.active span:nth-child(1){transform:translateY(8px) rotate(45deg);}
+  .menu-toggle.active span:nth-child(2){opacity:0;}
+  .menu-toggle.active span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
+  .nav-date{display:none}
+  .hero{min-height:40vh;padding:110px 20px 40px;}
+  .archive-body{padding:36px 20px 60px;}
+  .entry-grid{grid-template-columns:1fr;}
+  .stats-bar{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<a href="https://wa.me/27670929982" target="_blank" class="whatsapp-float" aria-label="Join Coherent Capital on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.488 1.449 5.412 1.451 5.428 0 9.85-4.417 9.853-9.843.002-2.63-1.023-5.101-2.886-6.968C17.162 1.928 14.69 .901 12.007.901c-5.433 0-9.854 4.416-9.857 9.842-.001 1.984.518 3.922 1.508 5.642l-1.01 3.694 3.791-.994zm11.367-6.04c-.333-.167-1.97-.972-2.277-1.084-.306-.113-.53-.167-.751.166-.221.334-.856 1.084-1.05 1.307-.194.223-.389.25-.722.083-1.127-.565-1.933-1.001-2.714-2.34-.205-.352.205-.327.586-1.087.064-.134.032-.25-.016-.352-.049-.101-.423-1.018-.579-1.396-.152-.364-.307-.315-.422-.321-.108-.005-.233-.006-.357-.006-.125 0-.327.047-.498.234-.171.188-.65.635-.65 1.55s.666 1.802.76 1.928c.093.127 1.312 2.004 3.18 2.81.444.192.79.307 1.06.393.446.142.851.121 1.171.074.357-.053 1.97-.805 2.247-1.583.277-.778.277-1.446.194-1.585-.083-.139-.277-.222-.61-.39z"/></svg>
+</a>
+
+<a href="#" id="backToTopButton" class="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
+</a>
+
+<nav>
+  <div class="nav-logo">
+    <img src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    <div><div class="nav-brand">Coherent Capital</div></div>
+  </div>
+  <ul id="navMenu">
+    <li><a href="index.html#focus">Market Focus</a></li>
+    <li><a href="index.html#journal">Daily Journal</a></li>
+    <li><a href="index.html#cycle">Grid Cycle</a></li>
+    <li><a href="index.html#psychology">Psychology</a></li>
+    <li><a href="weekly.html">Weekly Edition</a></li>
+    <li><a href="index.html#about">About</a></li>
+  </ul>
+  <button class="menu-toggle" id="mobileToggleButton" aria-label="Toggle navigation menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-date" id="navDate"></div>
+</nav>
+
+<section class="hero">
+  <div class="hero-dollar-bg" aria-hidden="true">$</div>
+  <div style="position:relative;z-index:1">
+    <div class="hero-logo-wrap"><img class="hero-logo" src="Screenshot_20260608-054728.png" alt="Coherent Capital"></div>
+    <div class="hero-eyebrow">Coherent Capital Archive</div>
+    <h1>Journal <span class="dollar">Archive</span></h1>
+    <p class="hero-sub">Every entry. Every level. Every lesson. The complete record of preparation, process, and execution.</p>
+  </div>
+</section>
+
+<div class="ticker-strip">
+  <div class="ticker-inner">
+    <span class="ticker-item">DXY &nbsp;<span>100.69</span>&nbsp;<span class="up">▲ +0.08%</span></span>
+    <span class="ticker-item">USD BIAS &nbsp;<span class="up">LONG</span></span>
+    <span class="ticker-item">PHASE &nbsp;<span>Week 1 D3 Backside</span></span>
+    <span class="ticker-item">TARGET &nbsp;<span>104.24 (Monthly LHF)</span></span>
+    <span class="ticker-item">DXY &nbsp;<span>100.69</span>&nbsp;<span class="up">▲ +0.08%</span></span>
+    <span class="ticker-item">USD BIAS &nbsp;<span class="up">LONG</span></span>
+    <span class="ticker-item">PHASE &nbsp;<span>Week 1 D3 Backside</span></span>
+    <span class="ticker-item">TARGET &nbsp;<span>104.24 (Monthly LHF)</span></span>
+  </div>
+</div>
+
+<article class="archive-body">
+
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num">6</div><div class="stat-label">Months</div></div>
+    <div class="stat-card"><div class="stat-num">24</div><div class="stat-label">Weeks</div></div>
+    <div class="stat-card"><div class="stat-num">87</div><div class="stat-label">Entries</div></div>
+    <div class="stat-card"><div class="stat-num">100%</div><div class="stat-label">Process</div></div>
+  </div>
+
+  <div class="month-tabs" id="monthTabs">
+    <button class="month-tab" data-month="jan" onclick="switchMonth('jan')">January 2026</button>
+    <button class="month-tab" data-month="feb" onclick="switchMonth('feb')">February 2026</button>
+    <button class="month-tab" data-month="mar" onclick="switchMonth('mar')">March 2026</button>
+    <button class="month-tab" data-month="apr" onclick="switchMonth('apr')">April 2026</button>
+    <button class="month-tab" data-month="may" onclick="switchMonth('may')">May 2026</button>
+    <button class="month-tab active" data-month="jun" onclick="switchMonth('jun')">June 2026</button>
+  </div>
+
+  <!-- ===== JANUARY 2026 ===== -->
+  <div class="month-panel" id="panel-jan">
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('jan-w1')">
+        <span>Week 1 <span class="week-meta">Jan 1-3 &middot; Opening Range</span></span>
+        <span class="week-icon" id="jan-w1-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="jan-w1-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Fri, 3 Jan 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Backside</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">99.20 (Monthly Open)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FGD - First Green Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">No trade - waited for coil</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> January opened with a gap above December's close. FGD confirmed on D1. D3 Backside - closing range. No clean coil presented in the Ignition window. <strong>Stuck to the plan. No trade is a trade.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('jan-w2')">
+        <span>Week 2 <span class="week-meta">Jan 6-10 &middot; Initial Balance</span></span>
+        <span class="week-icon" id="jan-w2-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="jan-w2-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Tue, 7 Jan 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Frontside</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">99.45 (BO Level)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">CIB - Close In Breakout</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+312 pips - USDJPY</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> CIB on Monday confirmed the breakout. Tuesday D2 - coil formed at 99.40 in the Ignition window. Buy Low executed on USDJPY inverse. All signals present. <strong>Stick to the plan.</strong></div>
+          </div>
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Thu, 9 Jan 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Backside</span><span class="badge badge-setup wait">Wait</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">99.62 (HOD)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">HH - Higher High</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">No trade - NFP week</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> NFP release Thursday. High volatility, low structure. Coil did not form cleanly. <strong>Red news = red light. Waited.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('jan-w3')">
+        <span>Week 3 <span class="week-meta">Jan 13-17 &middot; Midpoint + Reset</span></span>
+        <span class="week-icon" id="jan-w3-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="jan-w3-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Wed, 15 Jan 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Midpoint</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">99.80 (Institutional)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">CIB at HCOM</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+489 pips - EURUSD Short</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> D3 Midpoint - the reset day. Price coiled at 99.80, a level with 3-month memory. CIB on Tuesday. HH in Asia Wednesday. Coil in Ignition window. EURUSD Sell High inverse. <strong>All boxes checked.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('jan-w4')">
+        <span>Week 4 <span class="week-meta">Jan 20-24 &middot; Extension</span></span>
+        <span class="week-icon" id="jan-w4-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="jan-w4-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Fri, 24 Jan 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Backside</span><span class="badge badge-setup sell">Sell High</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.15 (HOM)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FRD - First Red Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+267 pips - GBPUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> Week 4 extension. HOM locked at 100.15. FRD on Thursday. D3 Backside - reversal setup. Coil at 100.08 in Ignition window. GBPUSD Buy Low inverse. <strong>Month closed strong. Process validated.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FEBRUARY 2026 ===== -->
+  <div class="month-panel" id="panel-feb">
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('feb-w1')">
+        <span>Week 1 <span class="week-meta">Feb 3-7 &middot; Opening Range</span></span>
+        <span class="week-icon" id="feb-w1-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="feb-w1-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Tue, 4 Feb 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Frontside</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.35 (Monthly Open)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FGD - Gap Open</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+198 pips - AUDUSD Short</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> February gap open above January close. FGD confirmed. D2 Frontside - coil at 100.32. AUDUSD Sell High inverse. Clean execution. <strong>Process over prediction.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('feb-w2')">
+        <span>Week 2 <span class="week-meta">Feb 10-14 &middot; Initial Balance</span></span>
+        <span class="week-icon" id="feb-w2-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="feb-w2-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Wed, 12 Feb 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Midpoint</span><span class="badge badge-setup wait">Wait</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.58 (BO Level)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">ID - Inside Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">No trade - consolidation</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> Inside Day on Tuesday. No clear direction. D3 Midpoint - price chopping. No coil in Ignition window. <strong>Patience is the position.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('feb-w3')">
+        <span>Week 3 <span class="week-meta">Feb 17-21 &middot; Midpoint + Reset</span></span>
+        <span class="week-icon" id="feb-w3-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="feb-w3-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Thu, 20 Feb 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Backside</span><span class="badge badge-setup sell">Sell High</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.72 (HCOM)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">CIB - Close In Breakout</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+356 pips - NZDUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> CIB at HCOM 100.72. D2 Backside - reversal signal. Coil formed at 100.68. NZDUSD Buy Low inverse. <strong>Structure repeats. Discipline pays.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('feb-w4')">
+        <span>Week 4 <span class="week-meta">Feb 24-28 &middot; Extension / Closing</span></span>
+        <span class="week-icon" id="feb-w4-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="feb-w4-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Fri, 28 Feb 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Backside</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.45 (Monthly Close)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FRD - Failed Breakout</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+425 pips - EURUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> Month closing range. FRD confirmed Thursday. D3 Backside - reversal to mean. Coil at 100.48. EURUSD Sell High. <strong>February closed net positive. Process intact.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MARCH 2026 ===== -->
+  <div class="month-panel" id="panel-mar">
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('mar-w1')">
+        <span>Week 1 <span class="week-meta">Mar 3-7 &middot; Opening Range</span></span>
+        <span class="week-icon" id="mar-w1-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="mar-w1-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Mon, 3 Mar 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D1 Opening</span><span class="badge badge-setup wait">Wait</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.28 (Gap Down)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FRD - First Red Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">No trade - gap analysis</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> March opened with a gap down from February close. FRD on D1. No coil - price in free fall. <strong>Wait for structure. No structure, no trade.</strong></div>
+          </div>
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Thu, 6 Mar 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Backside</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">99.95 (Institutional)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">LL - Lower Low</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+534 pips - GBPUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> Three days of selling. LL on Wednesday. D2 Backside - coil at 99.95 (major institutional level from November 2025). GBPUSD Buy Low inverse. <strong>The level had memory. The process had patience.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('mar-w2')">
+        <span>Week 2 <span class="week-meta">Mar 10-14 &middot; Initial Balance</span></span>
+        <span class="week-icon" id="mar-w2-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="mar-w2-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Tue, 11 Mar 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Frontside</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.05 (BO Level)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FGD - First Green Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+287 pips - USDJPY</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> FGD on Monday after the reversal. D2 Frontside - continuation setup. Coil at 100.02. USDJPY Buy Low. <strong>Trend trades pay when the structure aligns.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('mar-w3')">
+        <span>Week 3 <span class="week-meta">Mar 17-21 &middot; Midpoint + Reset</span></span>
+        <span class="week-icon" id="mar-w3-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="mar-w3-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Wed, 19 Mar 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Midpoint</span><span class="badge badge-setup wait">Wait</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.22 (FOMC)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">ID - Inside Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">No trade - FOMC week</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> FOMC Wednesday. Inside Day Tuesday. No structure, just noise. <strong>Red news week = stand aside. Capital preserved.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('mar-w4')">
+        <span>Week 4 <span class="week-meta">Mar 24-28 &middot; Extension / Closing</span></span>
+        <span class="week-icon" id="mar-w4-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="mar-w4-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Fri, 28 Mar 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Backside</span><span class="badge badge-setup sell">Sell High</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.38 (HOM)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">CIB - Close In Breakout</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+612 pips - EURUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> Month closing strong. HOM at 100.38. CIB Thursday. D3 Backside - reversal setup. Coil at 100.35. EURUSD Sell High. <strong>March was a masterclass in patience.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== APRIL 2026 ===== -->
+  <div class="month-panel" id="panel-apr">
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('apr-w1')">
+        <span>Week 1 <span class="week-meta">Apr 1-4 &middot; Opening Range</span></span>
+        <span class="week-icon" id="apr-w1-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="apr-w1-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Tue, 1 Apr 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D1 Opening</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.50 (April HOM)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FGD - Gap Open</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+245 pips - AUDUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> April opened with a bullish gap. FGD confirmed. Coil at 100.48. AUDUSD Sell High inverse. <strong>The grid never lies. The trader must listen.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('apr-w2')">
+        <span>Week 2 <span class="week-meta">Apr 7-11 &middot; Initial Balance</span></span>
+        <span class="week-icon" id="apr-w2-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="apr-w2-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Thu, 10 Apr 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Backside</span><span class="badge badge-setup wait">Wait</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.68 (BO Level)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">ID - Inside Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">No trade - CPI week</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> CPI release Thursday. Inside Day Wednesday. No coil, just anticipation. <strong>Red news = no trade. Discipline over dollars.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('apr-w3')">
+        <span>Week 3 <span class="week-meta">Apr 14-18 &middot; Midpoint + Reset</span></span>
+        <span class="week-icon" id="apr-w3-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="apr-w3-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Wed, 16 Apr 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Midpoint</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.82 (HCOM)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">CIB - Close In Breakout</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+378 pips - NZDUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> CIB at HCOM 100.82. D3 Midpoint - reset day. Coil at 100.78. NZDUSD Sell High inverse. <strong>The midpoint is where the patient trader gets paid.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('apr-w4')">
+        <span>Week 4 <span class="week-meta">Apr 21-25 &middot; Extension / Closing</span></span>
+        <span class="week-icon" id="apr-w4-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="apr-w4-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Fri, 25 Apr 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Backside</span><span class="badge badge-setup sell">Sell High</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.95 (HOM)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FRD - Failed Breakout</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+445 pips - GBPUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> Month extension. HOM at 100.95. FRD Thursday. D3 Backside - reversal. Coil at 100.90. GBPUSD Buy Low inverse. <strong>April validated the grid once more.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAY 2026 ===== -->
+  <div class="month-panel" id="panel-may">
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('may-w1')">
+        <span>Week 1 <span class="week-meta">May 1-2 &middot; Opening Range (Short Week)</span></span>
+        <span class="week-icon" id="may-w1-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="may-w1-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Fri, 2 May 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Backside</span><span class="badge badge-setup wait">Wait</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.75 (Monthly Open)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FGD - First Green Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">No trade - short week</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> May opened post-holiday. Short week - only 2 trading days. FGD on Thursday. No coil Friday. <strong>Compressed weeks require compressed expectations. No trade is valid.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('may-w2')">
+        <span>Week 2 <span class="week-meta">May 5-9 &middot; Initial Balance</span></span>
+        <span class="week-icon" id="may-w2-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="may-w2-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Tue, 6 May 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Frontside</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.88 (BO Level)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">CIB - Close In Breakout</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+298 pips - EURUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> CIB on Monday. D2 Frontside - continuation. Coil at 100.85. EURUSD Sell High inverse. <strong>The process is the edge. The edge compounds.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('may-w3')">
+        <span>Week 3 <span class="week-meta">May 12-16 &middot; Midpoint + Reset</span></span>
+        <span class="week-icon" id="may-w3-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="may-w3-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Wed, 14 May 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Midpoint</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">101.05 (Institutional)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">HH - Higher High</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+412 pips - USDJPY</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> HH on Tuesday. D3 Midpoint - reset to D1. Coil at 101.02. USDJPY Buy Low. <strong>The midpoint reset is where trends either continue or die. We were on the right side.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('may-w4')">
+        <span>Week 4 <span class="week-meta">May 19-23 &middot; Extension</span></span>
+        <span class="week-icon" id="may-w4-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="may-w4-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Fri, 23 May 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Backside</span><span class="badge badge-setup sell">Sell High</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">101.22 (HOM)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FRD - First Red Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+389 pips - AUDUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> Month extension. HOM at 101.22. FRD Thursday. D3 Backside - reversal. Coil at 101.18. AUDUSD Buy Low inverse. <strong>May closed the month net positive. The grid held.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== JUNE 2026 ===== -->
+  <div class="month-panel active" id="panel-jun">
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('jun-w1')">
+        <span>Week 1 <span class="week-meta">Jun 2-6 &middot; Opening Range</span></span>
+        <span class="week-icon" id="jun-w1-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="jun-w1-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Mon, 2 Jun 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D1 Opening</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">99.20 (Monthly Open)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FGW - First Green Week</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+523 pips - GBPUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> June opened with a gap down from May close. FGW confirmed. D1 Opening - coil at 99.18. GBPUSD Buy Low inverse. <strong>The opening range sets the tone. We listened.</strong></div>
+          </div>
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Thu, 5 Jun 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Backside</span><span class="badge badge-setup wait">Wait</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">99.45 (BO Level)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">ID - Inside Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">No trade - consolidation</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> Inside Day Wednesday. No clear direction. D2 Backside - price chopping. No coil. <strong>Consolidation is not a setup. Patience is.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('jun-w2')">
+        <span>Week 2 <span class="week-meta">Jun 9-13 &middot; Initial Balance</span></span>
+        <span class="week-icon" id="jun-w2-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="jun-w2-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Tue, 10 Jun 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Frontside</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">99.65 (BO Level)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">HH - Higher High</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+334 pips - EURUSD Short</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> HH on Monday. D2 Frontside - continuation. Coil at 99.62. EURUSD Sell High inverse. <strong>Trend continuation pays when all signals align.</strong></div>
+          </div>
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Thu, 12 Jun 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Backside</span><span class="badge badge-setup wait">Wait</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">99.82 (HOD)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">ID - Inside Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">No trade - PPI week</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> PPI release Thursday. Inside Day Wednesday. No structure, just positioning. <strong>Red news = no trade. Capital preserved.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('jun-w3')">
+        <span>Week 3 <span class="week-meta">Jun 16-20 &middot; Midpoint + Reset</span></span>
+        <span class="week-icon" id="jun-w3-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="jun-w3-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Wed, 18 Jun 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D2 Backside</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.35 (HCOM)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">CIB - Close In Breakout</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+2,679 pips - GBPUSD Short</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> CIB at HCOM 100.35. D2 Backside - reversal signal. Coil at 100.32. GBPUSD Sell High inverse. FOMC week but structure held. <strong>The grid works when you wait for all signals.</strong></div>
+          </div>
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Fri, 20 Jun 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Backside</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">100.50 (BO Level)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FRD - First Red Day</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+312 pips - NZDUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> Week 3 closing. FRD Thursday. D3 Backside - continuation dump and pump. Coil at 100.48. NZDUSD Buy Low inverse. <strong>Juneteenth holiday tested discipline. We passed.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-accordion">
+      <button class="week-trigger" onclick="toggleWeek('jun-w4')">
+        <span>Week 4 <span class="week-meta">Jun 23-27 &middot; Extension</span></span>
+        <span class="week-icon" id="jun-w4-icon">&#9660;</span>
+      </button>
+      <div class="week-content" id="jun-w4-content">
+        <div class="week-inner">
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Tue, 24 Jun 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Midpoint</span><span class="badge badge-setup">Buy Low</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">101.37 (HOD)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">CIB - Close In Breakout</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+4,250 pips - AUDUSD Short</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> CIB on Monday. D3 Midpoint - reset to D1. Coil at 101.35. AUDUSD Sell High inverse. Massive move. <strong>The midpoint reset paid the month.</strong></div>
+          </div>
+          <div class="entry-card">
+            <div class="entry-header">
+              <div class="entry-date">Thu, 26 Jun 2026</div>
+              <div class="entry-badges"><span class="badge badge-phase">D3 Backside</span><span class="badge badge-setup sell">Sell High</span></div>
+            </div>
+            <div class="entry-grid">
+              <div class="entry-field"><span class="entry-field-label">Key Level</span><span class="entry-field-value">101.72 (HOM)</span></div>
+              <div class="entry-field"><span class="entry-field-label">Signal Day</span><span class="entry-field-value">FRD - Failed Breakout</span></div>
+              <div class="entry-field"><span class="entry-field-label">Result</span><span class="entry-field-value">+267 pips - GBPUSD</span></div>
+            </div>
+            <div class="entry-notes"><strong>Notes:</strong> HOM locked at 101.72. FRD Wednesday. D3 Backside - reversal. Coil at 101.68. GBPUSD Buy Low inverse. <strong>Week 4 extension complete. Month closing strong.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</article>
+
+<div class="shimmer-divider"></div>
+
+<footer>
+  <div class="footer-logo">
+    <img src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    <div>
+      <div class="footer-brand">Coherent Capital</div>
+      <div style="font-size:.6rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase">coherentcapital.online</div>
+    </div>
+  </div>
+  <div class="footer-copy">&copy; 2026 Coherent Capital &nbsp;|&nbsp; $ Dollar Note $ &nbsp;|&nbsp; All Rights Reserved</div>
+  <div class="footer-tagline">Intelligence &middot; Precision &middot; Discipline</div>
+</footer>
+
+<script>
+// Mobile toggle
+const toggleBtn = document.getElementById('mobileToggleButton');
+const navMenu = document.getElementById('navMenu');
+toggleBtn.addEventListener('click', () => {
+  toggleBtn.classList.toggle('active');
+  navMenu.classList.toggle('active');
+});
+document.querySelectorAll('#navMenu a').forEach(link => {
+  link.addEventListener('click', () => {
+    toggleBtn.classList.remove('active');
+    navMenu.classList.remove('active');
+  });
+});
+
+// Back to top
+const backBtn = document.getElementById('backToTopButton');
+window.addEventListener('scroll', () => {
+  if (backBtn) {
+    window.scrollY > 400 ? backBtn.classList.add('visible') : backBtn.classList.remove('visible');
+  }
+});
+
+// Date
+const now = new Date();
+const opts = {day:'numeric',month:'long',year:'numeric'};
+document.getElementById('navDate').textContent = now.toLocaleDateString('en-GB',opts).toUpperCase();
+
+// Month tab switching
+function switchMonth(month) {
+  document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.month-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('.month-tab[data-month="' + month + '"]').classList.add('active');
+  document.getElementById('panel-' + month).classList.add('active');
+}
+
+// Week accordion toggle
+function toggleWeek(id) {
+  const content = document.getElementById(id + '-content');
+  const icon = document.getElementById(id + '-icon');
+  if (!content || !icon) return;
+  content.classList.toggle('open');
+  icon.style.transform = content.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+}
+
+// Particles
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+  const particles = Array.from({ length: 90 }, () => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.4 + 0.3,
+    speedX: (Math.random() - 0.5) * 0.3,
+    speedY: -Math.random() * 0.5 - 0.1,
+    opacity: Math.random() * 0.5 + 0.1,
+    pulse: Math.random() * Math.PI * 2,
+  }));
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.pulse += 0.02;
+      const alpha = p.opacity * (0.7 + 0.3 * Math.sin(p.pulse));
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(201,168,76,' + alpha + ')';
+      ctx.fill();
+      p.x += p.speedX;
+      p.y += p.speedY;
+      if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+      if (p.x < -5) p.x = W + 5;
+      if (p.x > W + 5) p.x = -5;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+</body>
+</html>

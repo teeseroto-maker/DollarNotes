@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Weekly Edition | Coherent Capital</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+/* ===== TOKENS ===== */
+:root{
+  --bg:#040404;
+  --surface:#0a0a0a;
+  --card:#0f0f0f;
+  --gold:#C9A84C;
+  --gold-bright:#F0C55A;
+  --gold-dim:rgba(201,168,76,.18);
+  --gold-glow:rgba(201,168,76,.35);
+  --text:#f0ede8;
+  --muted:#8a8580;
+  --green:#2ecc71;
+  --red:#e74c3c;
+  --border:rgba(201,168,76,.2);
+}
+
+/* ===== RESET ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ===== PARTICLE CANVAS ===== */
+#particles{
+  position:fixed;top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ===== WHATSAPP FLOATING BUTTON ===== */
+.whatsapp-float {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+  width: 56px;
+  height: 56px;
+  background: #0a0a0a;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: .3s;
+  box-shadow: 0 0 15px rgba(201,168,76,.2);
+  animation: goldBeamPulse 2.5s infinite ease-in-out;
+}
+.whatsapp-float svg {
+  width: 28px;
+  height: 28px;
+  fill: var(--gold-bright);
+}
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  background: var(--gold);
+}
+.whatsapp-float:hover svg {
+  fill: #040404;
+}
+@keyframes goldBeamPulse {
+  0% { box-shadow: 0 0 0 0 rgba(201,168,76,0.5); }
+  70% { box-shadow: 0 0 0 18px rgba(201,168,76,0); }
+  100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:0;width:100%;z-index:999;
+  background:rgba(4,4,4,.95);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 7%;
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  display:flex;align-items:center;gap:12px;
+}
+.nav-logo img{
+  width:38px;height:38px;
+}
+.nav-brand{
+  font-family:"Bebas Neue";
+  font-size:1.1rem;letter-spacing:3px;color:var(--gold);
+}
+nav ul{display:flex;gap:28px;list-style:none;align-items:center;}
+nav a{
+  color:var(--muted);text-decoration:none;
+  font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+  transition:.3s;font-weight:500;
+}
+nav a:hover{color:var(--gold)}
+.nav-date{
+  font-size:.7rem;letter-spacing:1.5px;color:var(--muted);
+  text-transform:uppercase;
+}
+
+/* HAMBURGER MENU */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  z-index: 1000;
+  padding: 4px;
+}
+.menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--gold);
+  transition: 0.3s ease-in-out;
+}
+
+/* ===== BACK TO TOP ===== */
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  width: 40px;
+  height: 40px;
+  background: #0a0a0a;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: .4s;
+  opacity: 0;
+  visibility: hidden;
+}
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+.back-to-top svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--muted);
+  transition: .3s;
+}
+.back-to-top:hover {
+  border-color: var(--gold-bright);
+  transform: translateY(-4px);
+}
+.back-to-top:hover svg {
+  fill: var(--gold-bright);
+}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:70vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  padding:130px 20px 60px;
+  position:relative;
+  z-index:1;
+  background: transparent;
+}
+.hero-dollar-bg{
+  position:absolute;
+  font-family:"Bebas Neue";
+  font-size:clamp(15rem, 35vw, 32rem);
+  color:rgba(201,168,76,.03);
+  line-height:1;
+  user-select:none;
+  pointer-events:none;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:0;
+}
+.hero-logo-wrap{
+  position:relative;
+  display:inline-block;
+  margin-bottom:28px;
+}
+.hero-logo{
+  width:90px;height:90px;
+}
+.hero-eyebrow{
+  font-size:.7rem;letter-spacing:5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:14px;
+  font-weight:500;
+}
+.hero h1{
+  font-family:"Playfair Display";
+  font-size:clamp(2.4rem,5.5vw,4rem);
+  line-height:1.1;
+  font-weight:700;
+  margin-bottom:10px;
+  position:relative;z-index:1;
+}
+.hero h1 .dollar{color:var(--gold)}
+.hero-sub{
+  font-size:.95rem;color:var(--muted);
+  max-width:520px;margin:18px auto 32px;
+  line-height:1.7;letter-spacing:.3px;
+}
+.hero-cta{
+  display:inline-flex;gap:16px;flex-wrap:wrap;justify-content:center;
+}
+.btn-primary{
+  padding:14px 32px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-bright));
+  color:#040404;
+  font-weight:700;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+  text-decoration:none;border-radius:3px;
+  box-shadow:0 0 30px var(--gold-glow);
+  transition:.3s;
+  border:none;
+  cursor:pointer;
+  display:inline-block;
+}
+.btn-primary:hover{
+  box-shadow:0 0 50px var(--gold-glow);transform:translateY(-2px);
+}
+.btn-ghost{
+  padding:14px 32px;
+  border:1px solid var(--border);color:var(--muted);
+  font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+  text-decoration:none;border-radius:3px;
+  transition:.3s;
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+
+/* ===== TICKER STRIP ===== */
+.ticker-strip{
+  position:relative;z-index:2;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:12px 0;overflow:hidden;
+}
+.ticker-inner{
+  display:flex;gap:60px;white-space:nowrap;
+  animation:tickerScroll 30s linear infinite;
+  font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);
+}
+.ticker-item span{color:var(--gold);margin-left:8px}
+.ticker-item .up{color:var(--green)}
+.ticker-item .down{color:var(--red)}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===== SECTION BASE ===== */
+.section{padding:70px 7%;position:relative;z-index:1;background:transparent;}
+.section-label{
+  font-size:.65rem;letter-spacing:5px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:12px;font-weight:600;
+}
+.section-title{
+  font-family:"Playfair Display";
+  font-size:clamp(1.9rem,3.5vw,2.6rem);
+  color:var(--text);margin-bottom:8px;
+}
+.section-title em{color:var(--gold);font-style:normal}
+.section-desc{color:var(--muted);font-size:.9rem;max-width:520px;line-height:1.75}
+
+/* ===== SHIMMER DIVIDER ===== */
+.shimmer-divider{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold-bright) 50%,transparent 100%);
+  box-shadow:0 0 18px var(--gold-glow),0 0 40px rgba(201,168,76,.12);
+  position:relative;z-index:1;
+}
+
+/* ===== WHAT YOU GET ===== */
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-top:36px;
+}
+@media(max-width:768px){.features-grid{grid-template-columns:1fr}}
+.feature-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:24px 22px;
+  position:relative;
+  overflow:hidden;
+  transition:.4s;
+}
+.feature-card:hover{
+  border-color:rgba(201,168,76,.4);
+  transform:translateY(-2px);
+}
+.feature-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.feature-icon{
+  font-size:1.3rem;
+  margin-bottom:12px;
+}
+.feature-name{
+  font-family:"Bebas Neue";
+  font-size:1.1rem;
+  letter-spacing:2px;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.feature-text{
+  font-size:.82rem;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+/* ===== SAMPLE ISSUE PREVIEW ===== */
+.sample-issue{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+  margin-top:40px;
+}
+.sample-header{
+  padding:18px 24px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.sample-header-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.sample-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--gold);
+  animation:statusPulse 2s ease-in-out infinite;
+}
+@keyframes statusPulse{
+  0%,100%{opacity:1}50%{opacity:.4}
+}
+.sample-title{
+  font-family:"Bebas Neue";
+  font-size:1.2rem;
+  letter-spacing:3px;
+  color:var(--gold-bright);
+}
+.sample-meta{
+  font-size:.65rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.sample-body{
+  padding:28px 24px;
+}
+.sample-body h3{
+  font-family:"Playfair Display";
+  font-size:1.15rem;
+  color:var(--text);
+  margin:24px 0 10px;
+}
+.sample-body h3:first-child{
+  margin-top:0;
+}
+.sample-body p{
+  font-size:.88rem;
+  color:var(--muted);
+  line-height:1.85;
+  margin-bottom:12px;
+}
+.sample-body p strong{
+  color:var(--text);
+  font-weight:600;
+}
+.sample-body .highlight{
+  border-left:2px solid var(--gold);
+  padding:10px 16px;
+  background:rgba(201,168,76,.04);
+  border-radius:0 4px 4px 0;
+  margin:14px 0;
+  font-size:.85rem;
+  color:var(--text);
+  line-height:1.8;
+}
+.sample-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:16px 0;
+  font-size:.82rem;
+}
+.sample-table th,
+.sample-table td{
+  padding:10px 12px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+}
+.sample-table th{
+  font-size:.6rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--gold);
+  font-weight:600;
+}
+.sample-table td{
+  color:var(--muted);
+}
+.sample-table td strong{
+  color:var(--text);
+  font-weight:500;
+}
+
+/* ===== PRICING CARD ===== */
+.pricing-section{
+  display:flex;
+  justify-content:center;
+  margin-top:40px;
+}
+.pricing-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:40px 36px;
+  max-width:420px;
+  width:100%;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.pricing-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:3px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.pricing-badge{
+  display:inline-block;
+  font-size:.55rem;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  padding:4px 12px;
+  border-radius:2px;
+  background:rgba(201,168,76,.12);
+  color:var(--gold);
+  margin-bottom:18px;
+}
+.pricing-amount{
+  font-family:"Bebas Neue";
+  font-size:3.2rem;
+  color:var(--gold-bright);
+  letter-spacing:2px;
+  line-height:1;
+}
+.pricing-amount span{
+  font-size:1rem;
+  color:var(--muted);
+  letter-spacing:1px;
+  font-family:Inter,sans-serif;
+}
+.pricing-period{
+  font-size:.75rem;
+  color:var(--muted);
+  margin:8px 0 24px;
+  letter-spacing:1px;
+}
+.pricing-divider{
+  width:40px;
+  height:1px;
+  background:var(--gold);
+  margin:0 auto 24px;
+  opacity:.4;
+}
+.pricing-features{
+  text-align:left;
+  list-style:none;
+  margin-bottom:28px;
+}
+.pricing-features li{
+  font-size:.82rem;
+  color:var(--muted);
+  padding:8px 0;
+  border-bottom:1px solid rgba(201,168,76,.08);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.pricing-features li::before{
+  content:"✓";
+  color:var(--green);
+  font-weight:700;
+  font-size:.9rem;
+}
+.pricing-note{
+  font-size:.7rem;
+  color:var(--muted);
+  margin-top:16px;
+  line-height:1.6;
+}
+.pricing-note a{
+  color:var(--gold);
+  text-decoration:none;
+}
+.pricing-note a:hover{
+  text-decoration:underline;
+}
+
+/* ===== WHO IS THIS FOR ===== */
+.audience-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+  margin-top:36px;
+}
+@media(max-width:768px){.audience-grid{grid-template-columns:1fr}}
+.audience-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:22px 20px;
+  transition:.4s;
+}
+.audience-card:hover{
+  border-color:rgba(201,168,76,.3);
+}
+.audience-card.for{
+  border-left:3px solid var(--green);
+}
+.audience-card.not-for{
+  border-left:3px solid var(--red);
+}
+.audience-label{
+  font-size:.55rem;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-weight:700;
+  margin-bottom:10px;
+}
+.audience-card.for .audience-label{color:var(--green)}
+.audience-card.not-for .audience-label{color:var(--red)}
+.audience-text{
+  font-size:.82rem;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+/* ===== EMAIL CAPTURE FORM ===== */
+.capture-section{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:36px 32px;
+  max-width:480px;
+  margin:36px auto 0;
+  text-align:center;
+}
+.capture-section h3{
+  font-family:"Playfair Display";
+  font-size:1.2rem;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.capture-section p{
+  font-size:.82rem;
+  color:var(--muted);
+  margin-bottom:24px;
+  line-height:1.7;
+}
+.form-group{
+  margin-bottom:16px;
+  text-align:left;
+}
+.form-group label{
+  display:block;
+  font-size:.65rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.form-group input{
+  width:100%;
+  padding:12px 14px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:3px;
+  color:var(--text);
+  font-family:Inter,sans-serif;
+  font-size:.85rem;
+  outline:none;
+  transition:.3s;
+}
+.form-group input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 12px rgba(201,168,76,.1);
+}
+.form-group input::placeholder{
+  color:rgba(138,133,128,.5);
+}
+.form-submit{
+  width:100%;
+  margin-top:8px;
+}
+.form-message{
+  font-size:.75rem;
+  margin-top:12px;
+  min-height:20px;
+}
+.form-message.success{color:var(--green)}
+.form-message.error{color:var(--red)}
+
+/* ===== FOOTER ===== */
+footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--border);
+  padding:50px 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:24px;
+  background:var(--bg);
+}
+.footer-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.footer-logo img{
+  width:32px;height:32px;
+}
+.footer-brand{
+  font-family:"Bebas Neue";
+  font-size:.95rem;
+  letter-spacing:3px;
+  color:var(--gold);
+}
+.footer-copy{
+  font-size:.7rem;
+  letter-spacing:1.5px;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+.footer-tagline{
+  font-size:.7rem;
+  color:var(--muted);
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .menu-toggle { display:flex; }
+  nav ul {
+    position:fixed; top:71px; left:0; width:100%; height:calc(100vh - 71px);
+    background:rgba(4,4,4,0.98); backdrop-filter:blur(25px); -webkit-backdrop-filter:blur(25px);
+    flex-direction:column; justify-content:center; gap:40px;
+    transform:translateX(100%); transition:transform 0.4s ease-in-out; border-top:1px solid var(--border);
+  }
+  nav ul.active { transform:translateX(0); }
+  nav a { font-size:1.1rem; letter-spacing:4px; }
+  .menu-toggle.active span:nth-child(1) { transform:translateY(8px) rotate(45deg); }
+  .menu-toggle.active span:nth-child(2) { opacity:0; }
+  .menu-toggle.active span:nth-child(3) { transform:translateY(-8px) rotate(-45deg); }
+  .nav-date{display:none}
+  .hero{min-height:60vh;padding:110px 20px 50px;}
+  .pricing-card{padding:32px 24px;}
+  .capture-section{padding:28px 20px;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- WHATSAPP FLOATING BUTTON -->
+<a href="https://wa.me/27670929982" target="_blank" class="whatsapp-float" aria-label="Join Coherent Capital on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.488 1.449 5.412 1.451 5.428 0 9.85-4.417 9.853-9.843.002-2.63-1.023-5.101-2.886-6.968C17.162 1.928 14.69 .901 12.007.901c-5.433 0-9.854 4.416-9.857 9.842-.001 1.984.518 3.922 1.508 5.642l-1.01 3.694 3.791-.994zm11.367-6.04c-.333-.167-1.97-.972-2.277-1.084-.306-.113-.53-.167-.751.166-.221.334-.856 1.084-1.05 1.307-.194.223-.389.25-.722.083-1.127-.565-1.933-1.001-2.714-2.34-.205-.352.205-.327.586-1.087.064-.134.032-.25-.016-.352-.049-.101-.423-1.018-.579-1.396-.152-.364-.307-.315-.422-.321-.108-.005-.233-.006-.357-.006-.125 0-.327.047-.498.234-.171.188-.65.635-.65 1.55s.666 1.802.76 1.928c.093.127 1.312 2.004 3.18 2.81.444.192.79.307 1.06.393.446.142.851.121 1.171.074.357-.053 1.97-.805 2.247-1.583.277-.778.277-1.446.194-1.585-.083-.139-.277-.222-.61-.39z"/></svg>
+</a>
+
+<!-- BACK TO TOP BUTTON -->
+<a href="#" id="backToTopButton" class="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
+</a>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    <div><div class="nav-brand">Coherent Capital</div></div>
+  </div>
+  <ul id="navMenu">
+    <li><a href="index.html#focus">Market Focus</a></li>
+    <li><a href="index.html#journal">Daily Journal</a></li>
+    <li><a href="index.html#cycle">Grid Cycle</a></li>
+    <li><a href="index.html#psychology">Psychology</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="journal-archive.html">Journal-Archive</a></li>
+  </ul>
+  <button class="menu-toggle" id="mobileToggleButton" aria-label="Toggle navigation menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-date" id="navDate"></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dollar-bg" aria-hidden="true">$</div>
+  <div style="position:relative;z-index:1">
+    <div class="hero-logo-wrap"><img class="hero-logo" src="Screenshot_20260608-054728.png" alt="Coherent Capital"></div>
+    <div class="hero-eyebrow">Coherent Capital Presents</div>
+    <h1>The <span class="dollar">Weekly</span> Edition</h1>
+    <p class="hero-sub">Institutional grid analysis for the trader who prepares. Every Friday, before the market closes, the structure of the week ahead is decoded.</p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#sample">Read Sample Issue</a>
+      <a class="btn-ghost" href="#pricing">Join the Grid</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER STRIP -->
+<div class="ticker-strip">
+  <div class="ticker-inner">
+    <span class="ticker-item">DXY &nbsp;<span id="dxyPrice">100.69</span>&nbsp;<span class="up" id="dxyChange">▲ +0.08%</span></span>
+    <span class="ticker-item">USD BIAS &nbsp;<span class="up">LONG</span></span>
+    <span class="ticker-item">PHASE &nbsp;<span>Week 1 D3 Backside</span></span>
+    <span class="ticker-item">TARGET &nbsp;<span>104.24 (Monthly LHF)</span></span>
+    <span class="ticker-item">DXY &nbsp;<span id="dxyPrice2">100.69</span>&nbsp;<span class="up" id="dxyChange2">▲ +0.08%</span></span>
+    <span class="ticker-item">USD BIAS &nbsp;<span class="up">LONG</span></span>
+    <span class="ticker-item">PHASE &nbsp;<span>Week 1 D3 Backside</span></span>
+    <span class="ticker-item">TARGET &nbsp;<span>104.24 (Monthly LHF)</span></span>
+  </div>
+</div>
+
+<!-- WHAT YOU GET -->
+<section class="section">
+  <div class="section-label">The Product</div>
+  <div class="section-title">What You <em>Receive</em></div>
+  <p class="section-desc">Every week, before the market opens, you receive the same framework used to read DXY structure across monthly, weekly, and daily timeframes. Not signals. Not hype. Just the grid, the levels, and the discipline to wait for all conditions.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <div class="feature-name">Weekly Structural Note</div>
+      <div class="feature-text">Friday delivery, before the weekend gap. The week that closed, dissected. The week ahead, prepared for.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔄</div>
+      <div class="feature-name">Grid Cycle Analysis</div>
+      <div class="feature-text">D1, D2, D3 Mid-point range (Reset to D1), D2 Backside, D3 Backside. The full institutional phase mapping.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-name">Key Institutional Levels</div>
+      <div class="feature-text">Levels with historical memory. Not predictions — structural reference points that govern price delivery.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-name">Process Reminders</div>
+      <div class="feature-text">Psychological anchors for execution. The questions that separate the prepared from the impulsive.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📚</div>
+      <div class="feature-name">Archive Access</div>
+      <div class="feature-text">Past notes for pattern study. The grid cycle repeats. The levels change, but the structure does not.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚫</div>
+      <div class="feature-name">What You Do Not Get</div>
+      <div class="feature-text">No trade signals. No entry/exit prices. No guaranteed returns. No hype. No guru to follow.</div>
+    </div>
+  </div>
+</section>
+
+<div class="shimmer-divider"></div>
+
+<!-- SAMPLE ISSUE -->
+<section id="sample" class="section">
+  <div class="section-label">Preview</div>
+  <div class="section-title">Sample <em>Issue</em></div>
+  <p class="section-desc">This is exactly what lands in your inbox every Friday. Read it. Mark the levels. Question the bias. Make it yours.</p>
+
+  <div class="sample-issue">
+    <div class="sample-header">
+      <div class="sample-header-left">
+        <div class="sample-dot"></div>
+        <div class="sample-title">DOLLAR NOTE — WEEKLY EDITION</div>
+      </div>
+      <div class="sample-meta">Week 27 | Friday, 3 July 2026</div>
+    </div>
+    <div class="sample-body">
+      <h3>Opening Frame</h3>
+      <p>The USD closed June in breakout.</p>
+      <p>Not speculation. Not hope. Structural fact. The monthly candle printed above the High Close of May. The weekly cycle completed its fourth week with a Close In Breakout at <strong>101.08</strong>. These are not opinions. These are the signals the market presents when institutional capital commits to direction.</p>
+      <p>Now we stand at the opening range of July. Week 1. D3 Backside. The closing range. The place where the week's bias is either confirmed or rejected before the weekend gap.</p>
+
+      <h3>What Just Happened (June Recap)</h3>
+      <table class="sample-table">
+        <thead>
+          <tr><th>Week</th><th>Phase</th><th>Signal</th><th>Key Level</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>W1</td><td>Opening Range</td><td>FGW confirmed</td><td><strong>99.20</strong></td></tr>
+          <tr><td>W2</td><td>Initial Balance</td><td>HH, then aggressive reversal</td><td><strong>100.50</strong></td></tr>
+          <tr><td>W3</td><td>Midpoint + Reset</td><td>CIB at HCOM</td><td><strong>100.35</strong></td></tr>
+          <tr><td>W4</td><td>Extension</td><td>Continuation to HOM</td><td><strong>101.08</strong></td></tr>
+          <tr><td>W5</td><td>Closing Range</td><td>FRD confirmed, HOW locked</td><td><strong>101.72</strong></td></tr>
+        </tbody>
+      </table>
+      <p>June taught one lesson: <strong>the grid works when you wait for all signals. It punishes when you anticipate.</strong> The FOMC week trapped shorts. The Juneteenth holiday tested discipline. The final Friday confirmed what Thursday suspected — the month had made its high.</p>
+      <p>Those who stuck to the plan were positioned. Those who forced their will were liquidated.</p>
+
+      <h3>What Comes Next (July Structural Read)</h3>
+      <div class="highlight"><strong>Monthly:</strong> The July open gapped above June's close. First Green Day. First Green Week potential. The LHF sits at <strong>104.24</strong> — a level that matters not because we predict it, but because the structure demands we respect it.</div>
+      <div class="highlight"><strong>Weekly:</strong> We are in Week 1. D3 Backside — the closing range. The US markets close early today for Independence Day. Low liquidity, high noise. The bias formed on D1 and D2 must hold into the close for continuation into Week 2.</div>
+      <div class="highlight"><strong>Daily:</strong> NFP released Wednesday. Thursday was D2 Backside — price coiled near the breakout level. Today is D3 Backside, the true closing range where institutional positions are either held or reduced before the long weekend.</div>
+      <p><strong>The Bias:</strong> Bullish USD. But with eyes wide open. Monthly LHF at 104.24 means the road has resistance. The job is not to predict the arrival. The job is to execute when the coil presents itself in the ignition window.</p>
+
+      <h3>The Grid This Week</h3>
+      <table class="sample-table">
+        <thead>
+          <tr><th>Day</th><th>Phase</th><th>Focus</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Wed 1 Jul</strong></td><td>D1 Opening Range</td><td>NFP release. Gap above June close. HH signal.</td></tr>
+          <tr><td><strong>Thu 2 Jul</strong></td><td>D2 Backside</td><td>Coil near BO level. Independence Day eve. Positioning.</td></tr>
+          <tr><td><strong>Fri 3 Jul</strong></td><td>D3 Backside — Closing Range</td><td>US markets close early. Week's bias confirmed or rejected.</td></tr>
+        </tbody>
+      </table>
+      <p><em>Note: The standard 5-day grid compresses to 3 days this week due to the Independence Day holiday. D3 Mid-point range and Reset to D1 do not apply when the week opens mid-cycle.</em></p>
+
+      <h3>Levels to Watch</h3>
+      <p><strong>100.69</strong> — April HOM. Current pivot. Breakout level of 1 July.</p>
+      <p><strong>101.25–101.50</strong> — Institutional grid zone. First extension target.</p>
+      <p><strong>101.72</strong> — June HOW. Resistance until proven otherwise.</p>
+      <p><strong>104.24</strong> — Monthly LHF. The far target. Not this week. Not next. But the structure knows it is there.</p>
+
+      <h3>The Note</h3>
+      <div class="highlight">"The USD is in BO short of the 1st day of the month. Price is currently at 100.69. We are waiting for the close of day to find out if the BO will succeed or not."</div>
+      <p>This was written Thursday. It remains true Friday. The breakout is young. One day does not confirm a month. Three sessions do not confirm a quarter. The grid cycle teaches: confirmation comes in stages, and the patient trader collects at each stage.</p>
+      <p>Do not ignore that price may continue short, despite being short-lived, since there is LHF on the Monthly chart.</p>
+      <p style="color:var(--gold);font-weight:700;">Stick to the plan.</p>
+
+      <h3>Process Check</h3>
+      <p>This week, ask yourself:</p>
+      <p>1. Did I prepare before the session?</p>
+      <p>2. Did I identify the signal day and the signal on the day?</p>
+      <p>3. Did I wait for the coil in the ignition window?</p>
+      <p>4. Did I execute with fixed risk?</p>
+      <p>5. Did I evaluate without emotion?</p>
+      <p>Five questions. No score. Just awareness. The 1% compounds in the gap between knowing and doing.</p>
+
+      <p style="margin-top:24px;font-size:.78rem;color:var(--muted);letter-spacing:1px;text-align:center;">— End of Sample Issue —</p>
+    </div>
+  </div>
+</section>
+
+<div class="shimmer-divider"></div>
+
+<!-- WHO IS THIS FOR -->
+<section class="section">
+  <div class="section-label">The Fit</div>
+  <div class="section-title">Who This Is <em>For</em> — And Not</div>
+  <p class="section-desc">This is not for everyone. That is the point. The value compounds when the circle stays tight.</p>
+
+  <div class="audience-grid">
+    <div class="audience-card for">
+      <div class="audience-label">For You</div>
+      <div class="audience-text">Traders who have blown accounts chasing signals. Traders who know the edge is in preparation, not prediction. Traders building a process, not a fantasy. Traders who believe discipline compounds faster than luck.</div>
+    </div>
+    <div class="audience-card not-for">
+      <div class="audience-label">Not For You</div>
+      <div class="audience-text">Those looking for "set and forget" alerts. Those who need someone else to blame. Those who trade for excitement, not consistency. Those who want to be told what to do.</div>
+    </div>
+  </div>
+</section>
+
+<div class="shimmer-divider"></div>
+
+<!-- PRICING -->
+<section id="pricing" class="section">
+  <div class="section-label">The Investment</div>
+  <div class="section-title">Join the <em>Grid</em></div>
+  <p class="section-desc">We do not predict. We prepare. Every note is written from the same framework: Signal Day → Signal on the Day → Coil → Ignition Window. If you do not understand these terms yet, the free archive will teach you. If you already live by them, the Weekly Edition sharpens your edge.</p>
+
+  <div class="pricing-section">
+    <div class="pricing-card">
+      <div class="pricing-badge">Weekly Edition</div>
+      <div class="pricing-amount">R150<span> / month</span></div>
+      <div class="pricing-period">That's R5 per day. Less than a coffee. More than a hope.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Weekly Structural Note (Friday delivery)</li>
+        <li>Grid Cycle Analysis (full institutional phase mapping)</li>
+        <li>Key Institutional Levels with historical context</li>
+        <li>Process Reminders & psychological anchors</li>
+        <li>Full Archive Access for pattern study</li>
+        <li>Cancel anytime — no contracts, no questions</li>
+      </ul>
+      <a href="#capture" class="btn-primary" style="display:block;width:100%;text-align:center;">Start Preparing</a>
+      <div class="pricing-note">
+        Not ready yet? <a href="index.html#journal">Read the free archive first</a>. Upgrade when the process proves itself to you.
+      </div>
+    </div>
+  </div>
+
+  <!-- EMAIL CAPTURE FORM -->
+  <div id="capture" class="capture-section">
+    <h3>Get on the List</h3>
+    <p>Enter your details. We'll send you the next Weekly Edition preview. No spam. No noise. Just the grid.</p>
+    <form action="subscribe.php" method="POST" id="subscribeForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your first name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label for="whatsapp">WhatsApp (Optional)</label>
+        <input type="tel" id="whatsapp" name="whatsapp" placeholder="+27 67 092 9982">
+      </div>
+      <button type="submit" class="btn-primary form-submit">Join the Grid</button>
+      <div class="form-message" id="formMessage"></div>
+    </form>
+  </div>
+</section>
+
+<div class="shimmer-divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="Screenshot_20260608-054728.png" alt="Coherent Capital">
+    <div>
+      <div class="footer-brand">Coherent Capital</div>
+      <div style="font-size:.6rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase">coherentcapital.online</div>
+    </div>
+  </div>
+  <div class="footer-copy">© 2026 Coherent Capital &nbsp;|&nbsp; $ Dollar Note $ &nbsp;|&nbsp; All Rights Reserved</div>
+  <div class="footer-tagline">Intelligence · Precision · Discipline</div>
+</footer>
+
+<script>
+// Mobile toggle
+const toggleBtn = document.getElementById('mobileToggleButton');
+const navMenu = document.getElementById('navMenu');
+toggleBtn.addEventListener('click', () => {
+  toggleBtn.classList.toggle('active');
+  navMenu.classList.toggle('active');
+});
+document.querySelectorAll('#navMenu a').forEach(link => {
+  link.addEventListener('click', () => {
+    toggleBtn.classList.remove('active');
+    navMenu.classList.remove('active');
+  });
+});
+
+// Back to top
+const backBtn = document.getElementById('backToTopButton');
+window.addEventListener('scroll', () => {
+  if (backBtn) {
+    window.scrollY > 400 ? backBtn.classList.add('visible') : backBtn.classList.remove('visible');
+  }
+});
+
+// Date
+const now = new Date();
+const opts = {day:'numeric',month:'long',year:'numeric'};
+document.getElementById('navDate').textContent = now.toLocaleDateString('en-GB',opts).toUpperCase();
+
+// Simulated live price updates
+function updatePrices() {
+  const base = 100.69;
+  const variation = (Math.random() - 0.5) * 0.12;
+  const newPrice = (base + variation).toFixed(2);
+  const change = ((variation / base) * 100).toFixed(2);
+  const isUp = variation >= 0;
+
+  const priceEls = document.querySelectorAll('#dxyPrice, #dxyPrice2');
+  const changeEls = document.querySelectorAll('#dxyChange, #dxyChange2');
+
+  priceEls.forEach(el => { if (el) el.textContent = newPrice; });
+  changeEls.forEach(el => {
+    if (el) {
+      el.textContent = (isUp ? '▲ +' : '▼ ') + Math.abs(change) + '%';
+      el.className = isUp ? 'up' : 'down';
+    }
+  });
+}
+setInterval(updatePrices, 10000);
+updatePrices();
+
+// Particles
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  });
+  const particles = Array.from({ length: 90 }, () => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.4 + 0.3,
+    speedX: (Math.random() - 0.5) * 0.3,
+    speedY: -Math.random() * 0.5 - 0.1,
+    opacity: Math.random() * 0.5 + 0.1,
+    pulse: Math.random() * Math.PI * 2,
+  }));
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.pulse += 0.02;
+      const alpha = p.opacity * (0.7 + 0.3 * Math.sin(p.pulse));
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,168,76,${alpha})`;
+      ctx.fill();
+      p.x += p.speedX;
+      p.y += p.speedY;
+      if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
+      if (p.x < -5) p.x = W + 5;
+      if (p.x > W + 5) p.x = -5;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+
+</body>
+</html>
