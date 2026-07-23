@@ -639,6 +639,123 @@ nav a:hover{color:var(--gold)}
 }
 .principle-text{font-size:.84rem;color:var(--muted);line-height:1.75}
 
+/* ===== LATEST ARTICLE DOWNLOAD SECTION ===== */
+.article-download {
+  margin-top: 40px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 36px 32px;
+  text-align: center;
+}
+.article-download .article-icon {
+  font-size: 2.8rem;
+  margin-bottom: 12px;
+  display: block;
+}
+.article-download h3 {
+  font-family: "Playfair Display";
+  font-size: 1.4rem;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.article-download p {
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.8;
+  max-width: 640px;
+  margin: 0 auto 20px auto;
+}
+.article-download .form-heading {
+  color: var(--gold);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  font-family: 'Playfair Display', serif;
+}
+.article-download .form-sub {
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 25px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.article-download .form-sub strong {
+  color: var(--text);
+}
+
+/* Kit Form Overrides */
+.article-download .formkit-form,
+.psychology-download .formkit-form {
+  max-width: 480px !important;
+  margin: 0 auto !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.article-download .formkit-form .formkit-input,
+.psychology-download .formkit-form .formkit-input {
+  background: var(--bg) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  font-family: 'Inter', sans-serif !important;
+  padding: 14px 18px !important;
+  border-radius: 3px !important;
+  font-size: .85rem !important;
+}
+.article-download .formkit-form .formkit-input:focus,
+.psychology-download .formkit-form .formkit-input:focus {
+  border-color: var(--gold) !important;
+  outline: none !important;
+  box-shadow: 0 0 20px var(--gold-glow) !important;
+}
+.article-download .formkit-form .formkit-submit,
+.psychology-download .formkit-form .formkit-submit {
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright)) !important;
+  color: #040404 !important;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: .8rem !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  padding: 14px 32px !important;
+  border-radius: 3px !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: .3s !important;
+  box-shadow: 0 0 30px var(--gold-glow) !important;
+}
+.article-download .formkit-form .formkit-submit:hover,
+.psychology-download .formkit-form .formkit-submit:hover {
+  box-shadow: 0 0 50px var(--gold-glow) !important;
+  transform: translateY(-2px) !important;
+}
+.article-download .formkit-form .formkit-submit:active,
+.psychology-download .formkit-form .formkit-submit:active {
+  transform: scale(0.98) !important;
+}
+.article-download .formkit-form .formkit-field,
+.psychology-download .formkit-form .formkit-field {
+  margin-bottom: 16px !important;
+}
+.article-download .formkit-form .formkit-alert,
+.psychology-download .formkit-form .formkit-alert {
+  border-radius: 3px !important;
+  padding: 12px 16px !important;
+  font-size: .8rem !important;
+}
+.article-download .formkit-form .formkit-alert-success,
+.psychology-download .formkit-form .formkit-alert-success {
+  background: rgba(46,204,113,0.12) !important;
+  border: 1px solid rgba(46,204,113,0.25) !important;
+  color: var(--green) !important;
+}
+.article-download .formkit-form .formkit-alert-error,
+.psychology-download .formkit-form .formkit-alert-error {
+  background: rgba(231,76,60,0.12) !important;
+  border: 1px solid rgba(231,76,60,0.25) !important;
+  color: var(--red) !important;
+}
+
 /* ===== TRADING PSYCHOLOGY DOWNLOAD SECTION ===== */
 .psychology-download {
   margin-top: 40px;
@@ -666,30 +783,22 @@ nav a:hover{color:var(--gold)}
   max-width: 640px;
   margin: 0 auto 20px auto;
 }
-.download-btn {
-  display: inline-block;
-  padding: 14px 40px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
-  color: #040404;
-  font-weight: 700;
-  font-size: .8rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: 3px;
-  box-shadow: 0 0 30px var(--gold-glow);
-  transition: .3s;
+.psychology-download .form-heading {
+  color: var(--gold);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  font-family: 'Playfair Display', serif;
 }
-.download-btn:hover {
-  box-shadow: 0 0 50px var(--gold-glow);
-  transform: translateY(-2px);
+.psychology-download .form-sub {
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 25px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
-.download-btn svg {
-  width: 16px;
-  height: 16px;
-  margin-right: 10px;
-  vertical-align: middle;
-  fill: currentColor;
+.psychology-download .form-sub strong {
+  color: var(--text);
 }
 
 /* ===== NOTICE ===== */
@@ -817,6 +926,10 @@ footer{
   .menu-toggle.active span:nth-child(3) { transform:translateY(-8px) rotate(-45deg); }
   .nav-date{display:none}
   .focus-bar{grid-template-columns:1fr 1fr;max-width:100%;}
+  .article-download .formkit-form,
+  .psychology-download .formkit-form {
+    max-width: 100% !important;
+  }
 }
 </style>
 </head>
@@ -1416,10 +1529,10 @@ footer{
         </button>
         <div class="proof-content" id="proof-panel">
           <div class="proof-inner-gallery">
-            <!-- NEW: USDJPY Open Position -->
+            <!-- USDJPY Open Position -->
             <div class="chart-card">
               <div class="chart-card-header"><span class="chart-card-label">USDJPY Active</span><span class="chart-card-pair">USDJPY</span></div>
-              <img src="USDJPY_FGD _BuyMon21July.png" alt="USDJPY Active Position">
+              <img src="screengrab-20260721-133208_4916618293367064705.webp" alt="USDJPY Active Position">
               <div class="chart-caption">Buy 2 lots · Target 164.25 (200% Expansion of W3) · -$125 risk</div>
             </div>
             <!-- GER40 Trade -->
@@ -1568,6 +1681,44 @@ footer{
 <div class="shimmer-divider"></div>
 
 <!-- ============================================================ -->
+<!-- LATEST ARTICLE DOWNLOAD SECTION                               -->
+<!-- ============================================================ -->
+<section id="latest-article" class="section">
+  <div class="section-label">Latest Article</div>
+  <div class="section-title"><em>Article</em> Title</div>
+  <p class="section-desc">A short description of the article goes here. This section previews the latest educational content from Coherent Capital.</p>
+
+  <div class="article-download">
+    <span class="article-icon">📄</span>
+    <h3>Download the Full Article</h3>
+    <p>
+      Get the complete article delivered straight to your inbox. This in-depth piece explores institutional market structure, grid cycle analysis, and the psychology behind consistent trading execution.
+    </p>
+
+    <div style="margin:35px 0;">
+      <h4 class="form-heading">Get the Article</h4>
+      <p class="form-sub">
+        Enter your email below to receive the full article.
+        After subscribing, please check your inbox.
+        If you don't receive the confirmation email within a minute,
+        check your <strong>Spam</strong> or
+        <strong>Promotions</strong> folder and click the confirmation
+        button to access your download.
+      </p>
+
+      <!-- Kit Form for Latest Article -->
+      <script
+        async
+        data-uid="2eabd0afed"
+        src="https://coherent-capital.kit.com/2eabd0afed/index.js">
+      </script>
+    </div>
+  </div>
+</section>
+
+<div class="shimmer-divider"></div>
+
+<!-- ============================================================ -->
 <!-- TRADING PSYCHOLOGY DOWNLOAD SECTION                           -->
 <!-- ============================================================ -->
 <section id="psychology" class="section">
@@ -1579,12 +1730,27 @@ footer{
     <span class="download-icon">🧠</span>
     <h3>Mastering Your Mind Before Mastering the Market</h3>
     <p>
-      This 2-page guide explores the psychology of trading under financial pressure — why urgency destroys discipline, how to separate your circumstances from your trading decisions, and why consistency is the true measure of success. <strong>Free download for our community.</strong>
+      This 2-page guide explores the psychology of trading under financial pressure — why urgency destroys discipline, how to separate your circumstances from your trading decisions, and why consistency is the true measure of success.
     </p>
-    <a href="Coherent_Capital_Trading_Psychology_260701_145906.pdf" class="download-btn" download>
-      <svg viewBox="0 0 24 24" width="16" height="16"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-      Download PDF
-    </a>
+
+    <div style="margin:35px 0;">
+      <h4 class="form-heading">Unlock Your Free Trading Psychology Guide</h4>
+      <p class="form-sub">
+        Enter your email below to receive your free PDF.
+        After subscribing, please check your inbox.
+        If you don't receive the confirmation email within a minute,
+        check your <strong>Spam</strong> or
+        <strong>Promotions</strong> folder and click the confirmation
+        button to access your download.
+      </p>
+
+      <!-- Kit Form for Psychology Guide -->
+      <script
+        async
+        data-uid="5759729722"
+        src="https://coherent-capital.kit.com/5759729722/index.js">
+      </script>
+    </div>
   </div>
 </section>
 
